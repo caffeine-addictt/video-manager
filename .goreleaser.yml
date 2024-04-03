@@ -34,6 +34,8 @@ jobs:
 
 # Release Configuration
 project_name: video-manager
+report_sizes: true
+
 release:
   ids: [default]
 
