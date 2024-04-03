@@ -1,0 +1,95 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    name: Building project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          language-version: 1.22.1
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          # either 'goreleaser' (default) or 'goreleaser-pro'
+          distribution: goreleaser
+          # 'latest', 'nightly', or a semver
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Release Configuration
+release:
+  ids: [default]
+
+  draft: true
+  replace_existing_draft: true
+  target_commitish: "{{ .Commit }}"
+  prerelease: auto
+  mode: replace
+  disable: false
+  skip_upload: false
+
+  # Release body
+  header: |
+    ## The `{{ .Tag }}` release
+  footer: |
+    ## Install or update
+
+    For native Go installation (any platforms):
+
+    ```console
+    go install github.com/caffeine-addictt/video-manager@latest
+    ```
+
+    > 💡 Note: See the [`Wiki page`][wiki_url] to understand the project structure and get general recommendations.
+
+    ## Your help to improve project
+
+    I'd be truly grateful for help with:
+
+    - Creating tests (and/or benchmarks) for code.
+    - Improving existing functions, structs, or tests.
+    - Feature requests with interesting functions that would be good to add.
+
+    Your PRs & issues are welcome! Thanks :D
+
+    [wiki_url]: https://github.com/caffeine-addictt/video-manager/wiki
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  abbrev: -1
+  filters:
+    exclude: ["^*.md", "^*.ya?ml"]
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\(.+\))??!?:.+$'
+      order: 0
+    - title: Bug fixes
+      regexp: '^.*?fix(\(.+\))??!?:.+$'
+      order: 1
+    - title: Improvements
+      regexp: '^.*?(perf|refactor)(\(.+\))??!?:.+$'
+      order: 2
+    - title: Security issues
+      regexp: ^.*?(S|s)ecurity.*?$
+      order: 4
+    - title: Others
+      order: 999
