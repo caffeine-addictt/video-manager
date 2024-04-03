@@ -30,21 +30,21 @@ images/socialcard.png # social card
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/{{REPOSITORY}}">
+  <a href="https://github.com/caffeine-addictt/video-manager">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">{{PROJECT_NAME}}</h3>
+  <h3 align="center">Video Manager</h3>
 
   <p align="center">
-    {{PROJECT_SHORT_DESCRIPTION}}
+    Download, manage and view videos
     <br />
-    <a href="{{DOCS_URL}}"><strong>Explore the docs »</strong></a>
+    <a href=""><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/{{REPOSITORY}}/issues">Report Bug</a>
+    <a href="https://github.com/caffeine-addictt/video-manager/issues">Report Bug</a>
     ·
-    <a href="https://github.com/{{REPOSITORY}}/issues">Request Feature</a>
+    <a href="https://github.com/caffeine-addictt/video-manager/issues">Request Feature</a>
   </p>
 </div>
 
@@ -55,7 +55,7 @@ images/socialcard.png # social card
 
 ![Social Card](images/socialcard.png)
 
-{{PROJECT_LONG_DESCRIPTION}}
+ddd
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -73,7 +73,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-_Below is an example of how you can install and use {{PROJECT_NAME}}._
+_Below is an example of how you can install and use Video Manager._
 
 1. 
 2. 
@@ -87,7 +87,7 @@ _Below is an example of how you can install and use {{PROJECT_NAME}}._
 
 Our docs are [here]({{PROJECT_DOCUMENTATION_URL}})!
 
-See the [open issues](https://github.com/{{REPOSITORY}}/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/caffeine-addictt/video-manager/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -123,7 +123,7 @@ Distributed under the MIT License. See [LICENSE.txt](./LICENSE.txt) for more inf
 <!-- CONTACT -->
 ## Contact
 
-Alex - [contact@ngjx.org](mailto:contact@ngjx.org)
+Jun Xiang - [contact@ngjx.org](mailto:contact@ngjx.org)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -145,9 +145,9 @@ Alex - [contact@ngjx.org](mailto:contact@ngjx.org)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[forks-shield]: https://img.shields.io/github/forks/{{REPOSITORY}}.svg?style=for-the-badge
-[forks-url]: https://github.com/{{REPOSITORY}}/network/members
-[stars-shield]: https://img.shields.io/github/stars/{{REPOSITORY}}.svg?style=for-the-badge&color=yellow
-[stars-url]: https://github.com/{{REPOSITORY}}/stargazers
-[license-shield]: https://img.shields.io/github/license/{{REPOSITORY}}.svg?style=for-the-badge
-[license-url]: https://github.com/{{REPOSITORY}}/blob/master/LICENSE.txt
+[forks-shield]: https://img.shields.io/github/forks/caffeine-addictt/video-manager.svg?style=for-the-badge
+[forks-url]: https://github.com/caffeine-addictt/video-manager/network/members
+[stars-shield]: https://img.shields.io/github/stars/caffeine-addictt/video-manager.svg?style=for-the-badge&color=yellow
+[stars-url]: https://github.com/caffeine-addictt/video-manager/stargazers
+[license-shield]: https://img.shields.io/github/license/caffeine-addictt/video-manager.svg?style=for-the-badge
+[license-url]: https://github.com/caffeine-addictt/video-manager/blob/master/LICENSE.txt
