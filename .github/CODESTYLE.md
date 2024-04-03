@@ -12,12 +12,9 @@ and refer to it throughout the development of your contribution.
 ## General Guidelines
 Listed is a example class used demonstrate general rules you should follow throughout the development of your contribution.
 
-- Docstrings are to follow {{DOCSTRING_FORMAT}}
-- Private attributes are to be prefixed with an underscore
+- Code should conform to [Gopls](https://github.com/golang/tools/blob/master/gopls/README.md).
+- Private attributes are to be prefixed with an underscore.
 
-```
-code example
-```
 
 
 
