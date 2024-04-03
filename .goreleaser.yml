@@ -44,6 +44,22 @@ before:
     - go run github.com/go-critic/go-critic/cmd/gocritic@latest check -enableAll ./...
     - go run github.com/google/osv-scanner/cmd/osv-scanner@latest -r .
     - go test -race .
+
+builds:
+  - id: default
+    env: [CGO_ENABLED=0]
+    goos: [linux, windows, darwin]
+    goarch: [amd64, arm64]
+
+upx:
+  - ids: [default]
+    enabled: true
+    compress: best
+    lzma: true
+    brute: true
+    goos: [linux, windows] # skip darwin (macOS 13.x Ventura is not support now)
+    goarch: [amd64, arm64]
+
 release:
   ids: [default]
 
