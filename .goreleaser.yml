@@ -60,6 +60,12 @@ upx:
     goos: [linux, windows] # skip darwin (macOS 13.x Ventura is not support now)
     goarch: [amd64, arm64]
 
+archives:
+  - format_overrides:
+      - goos: windows
+        format: zip
+    files: [LICENSE, README.md]
+
 release:
   ids: [default]
 
