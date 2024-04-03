@@ -1,19 +1,3 @@
-<!--
-You can use this template to create your own README.md file by running the following command in your terminal:
-
-```sh
-chmod +x setup.sh
-./setup.sh
-```
-
-Follow the prompts and the files will be automatically updated.
-
-
-Create a folder called images and add your images to have them show up.
-images/logo.png # logo
-images/socialcard.png # social card
--->
-
 <a name="readme-top"></a>
 
 
@@ -30,10 +14,6 @@ images/socialcard.png # social card
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/caffeine-addictt/video-manager">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
   <h3 align="center">Video Manager</h3>
 
   <p align="center">
@@ -52,8 +32,6 @@ images/socialcard.png # social card
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-![Social Card](images/socialcard.png)
 
 ddd
 
