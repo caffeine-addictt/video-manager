@@ -33,6 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 # Release Configuration
+project_name: video-manager
 release:
   ids: [default]
 
