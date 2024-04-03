@@ -33,7 +33,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-ddd
+Want to download videos from urls and play them using other programs? This is the tool for you!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
