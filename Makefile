@@ -1,4 +1,5 @@
 BINARY_NAME:=main.out
+GOBIN:=${HOME}/go/bin
 
 
 # =================================== DEFAULT =================================== #
@@ -45,3 +46,9 @@ clean: |
 .PHONY: fmt
 fmt:
 	go fmt ./...
+
+# https://golangci-lint.run/welcome/install/
+## lint: Lint code
+.PHONY: lint
+lint:
+	$(GOBIN)/golangci-lint run -v
