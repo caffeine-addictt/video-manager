@@ -69,7 +69,11 @@ func initConfig() {
 				os.Exit(1)
 			}
 
-			viper.SafeWriteConfigAs(filepath.Join(home, ".video-manager"))
+			if err := viper.SafeWriteConfigAs(filepath.Join(home, ".video-manager")); err != nil {
+				fmt.Println("Failed to create configuration file at " + home + "/.video-manager")
+				Debug(err.Error())
+				os.Exit(1)
+			}
 			fmt.Println("Created default configuration file at " + home + "/.video-manager")
 		} else {
 			fmt.Println("Failed to read configuration file")
