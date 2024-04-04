@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import "github.com/caffeine-addictt/video-manager/src"
 
+// Run the actual CLI in src/
 func main() {
-	fmt.Println("Running!")
+	src.Start()
+
 }
