@@ -22,7 +22,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          language-version: 1.22.1
+          language-version: latest
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5

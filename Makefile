@@ -28,7 +28,10 @@ build: |
 ## test: Test the program
 .PHONY: test
 test: |
-	go test -v main.go
+	go run github.com/securego/gosec/v2/cmd/gosec@latest -quiet ./...
+	go run github.com/go-critic/go-critic/cmd/gocritic@latest check -enableAll ./...
+	go run github.com/google/osv-scanner/cmd/osv-scanner@latest -r .
+	go test -race .
 
 # =================================== QUALITY ================================== #
 
