@@ -30,4 +30,4 @@ jobs:
       - name: Testing
         run: |
           set -xe
-          go test
+          make test
