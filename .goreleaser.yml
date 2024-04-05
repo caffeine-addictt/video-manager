@@ -40,6 +40,33 @@ nfpms:
     formats: [rpm, apk, termux.deb, deb, archlinux]
     dependencies: [git]
 
+aurs:
+  - maintainers: [Jun Xiang <contact@ngjx.org>]
+    homepage: "https://github.com/caffeine-addictt/video-manager"
+    license: MIT
+    name: video-manager
+    skip_upload: true
+    depends: [go, git]
+    optdepends:
+      - "ffmpeg: for video transcoding"
+      - "mpv: for video playback"
+    backup: [/.video-manager]
+    url_template: https://github.com/caffeine-addictt/video-manager/releases/{{ .Tag }}/{{ .ArtifactName }}
+    package: |-
+      #bin
+      install -Dm755 {{ .ArtifactPath }} ${pkgdir}/usr/bin/video-manager
+
+      # completions
+      # mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
+      # mkdir -p "${pkgdir}/usr/share/zsh/site-functions/"
+      # mkdir -p "${pkgdir}/usr/share/fish/vendor_completions.d/"
+      # install -Dm644 "./completions/mybin.bash" "${pkgdir}/usr/share/bash-completion/completions/mybin"
+      # install -Dm644 "./completions/mybin.zsh" "${pkgdir}/usr/share/zsh/site-functions/_mybin"
+      # install -Dm644 "./completions/mybin.fish" "${pkgdir}/usr/share/fish/vendor_completions.d/mybin.fish"
+
+      # man pages
+      # install -Dm644 "./manpages/mybin.1.gz" "${pkgdir}/usr/share/man/man1/mybin.1.gz"
+
 release:
   ids: [default]
   draft: true
