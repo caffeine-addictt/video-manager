@@ -54,7 +54,7 @@ aurs:
     url_template: https://github.com/caffeine-addictt/video-manager/releases/{{ .Tag }}/{{ .ArtifactName }}
     package: |-
       #bin
-      install -Dm755 {{ .ArtifactPath }} ${pkgdir}/usr/bin/video-manager
+      install -Dm755 'video-manager' ${pkgdir}/usr/bin/video-manager
 
       # completions
       # mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
