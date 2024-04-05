@@ -33,6 +33,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/caffeine-addictt/video-manager)](https://goreportcard.com/report/github.com/caffeine-addictt/video-manager)
+
 Want to download videos from urls and play them using other programs? This is the tool for you!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
