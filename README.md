@@ -19,7 +19,7 @@
   <p align="center">
     Download, manage and view videos
     <br />
-    <a href=""><strong>Explore the docs »</strong></a>
+    <a href="./docs/index.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/caffeine-addictt/video-manager/issues">Report Bug</a>
@@ -79,7 +79,7 @@ go run main.go
 <!-- DOCS -->
 ## Documentation
 
-Our docs are [here]({{PROJECT_DOCUMENTATION_URL}})!
+Our docs are [here](./docs/index.md)!
 
 See the [open issues](https://github.com/caffeine-addictt/video-manager/issues) for a full list of proposed features (and known issues).
 
