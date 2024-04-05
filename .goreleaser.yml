@@ -81,7 +81,7 @@ checksum:
 
 changelog:
   sort: asc
-  abbrev: -1
+  abbrev: 0
   filters:
     exclude: ["^*.md", "^*.ya?ml"]
   groups:
