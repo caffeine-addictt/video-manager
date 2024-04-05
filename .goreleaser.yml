@@ -80,10 +80,17 @@ checksum:
   name_template: "checksums.txt"
 
 changelog:
+  use: github
   sort: asc
-  abbrev: -1
+  abbrev: 0
   filters:
-    exclude: ["^*.md", "^*.ya?ml"]
+    exclude:
+      - "^ci"
+      - "^doc"
+      - "^test"
+      - "^chore"
+      - " (T|t)ypo "
+      - "^Merge pull request"
   groups:
     - title: Features
       regexp: '^.*?feat(\(.+\))??!?:.+$'
