@@ -20,7 +20,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          language-version: 1.22.1
+          language-version: latest
           cache: false
 
       - name: Lint
