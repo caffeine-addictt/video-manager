@@ -1,8 +1,8 @@
 <!-- markdownlint-disable MD033 -->
 
-# Getting started
+# Installing
 
-This guide provides an overview of the various features and options available.
+This guide will help you install the project.
 
 <!-- TOC -->
 <details>
@@ -13,4 +13,13 @@ This guide provides an overview of the various features and options available.
 </details>
 
 <!-- Contents -->
-## Placeholder
+
+## Natively with Go
+```sh
+go install github.com/caffeine-addictt/video-manager@latest
+```
+
+## All Operating Systems
+
+Find the valid tarballs for your OS in our [releases](https://github.com/caffeine-addictt/video-manager/releases).
+<!-- TODO: Shell examples using curl GNU/Linux and wget Windows -->
