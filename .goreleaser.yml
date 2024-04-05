@@ -84,7 +84,13 @@ changelog:
   sort: asc
   abbrev: 0
   filters:
-    exclude: ["^*.md", "^*.ya?ml"]
+    exclude:
+      - "^ci"
+      - "^doc"
+      - "^test"
+      - "^chore"
+      - " (T|t)ypo "
+      - "^Merge pull request"
   groups:
     - title: Features
       regexp: '^.*?feat(\(.+\))??!?:.+$'
