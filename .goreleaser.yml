@@ -32,6 +32,14 @@ archives:
         format: zip
     files: [LICENSE, README.md]
 
+nfpms:
+  - maintainer: Jun Xiang <contact@ngjx.org>
+    description: A local video manager.
+    homepage: "https://github.com/caffeine-addictt/video-manager"
+    license: MIT
+    formats: [rpm, apk, termux.deb, deb, archlinux]
+    dependencies: [git]
+
 release:
   ids: [default]
   draft: true
