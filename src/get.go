@@ -178,10 +178,10 @@ var getCommand = &cobra.Command{
 			waitGroup.Add(len(argSet))
 
 			for url := range argSet {
-				go func() {
+				go func(url string) {
 					defer waitGroup.Done()
 					downloadFile(url)
-				}()
+				}(url)
 			}
 
 			waitGroup.Wait()
