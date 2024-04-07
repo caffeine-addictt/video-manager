@@ -3,9 +3,15 @@ package src
 import (
 	"bufio"
 	"fmt"
+	"io"
+	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
+	"strings"
+	"sync"
 
+	"github.com/caffeine-addictt/video-manager/src/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -18,6 +24,14 @@ var getCommand = &cobra.Command{
 	Short: "Get and download videos",
 	Long:  `Get and download videos from passed file and url(s)`,
 	Run: func(cmd *cobra.Command, args []string) {
+		// Validate working directory exists and is writable
+		dirPath, err := utils.ValidateDirectory(workingDir)
+		if err != nil {
+			fmt.Printf("Failed to validate working directory: %#v\n", workingDir)
+			Debug(err.Error())
+			os.Exit(1)
+		}
+
 		// Turn all URLS to a map to eliminate duplicates
 		// We map string: struct{} for the smallest memory footprint
 		argSet := make(map[string]struct{})
@@ -69,12 +83,72 @@ var getCommand = &cobra.Command{
 		}
 
 		// Ensure a URL was passed
-		if len(argSet) <= 0 {
+		if len(argSet) == 0 {
 			fmt.Println("No URL(s) were passed!")
 			os.Exit(1)
 		}
 
-		// TODO: Handle downloading with progress indication
+		// Handle downloading
+		var waitGroup sync.WaitGroup
+		waitGroup.Add(len(argSet))
+
+		for url := range argSet {
+			go func(url string) {
+				defer waitGroup.Done()
+
+				split := strings.Split(url, "/")
+				downloadLocation := filepath.Clean(filepath.Join(dirPath, split[len(split)-1]))
+
+				// Ensure file already does not exist
+				Info("Checking if " + downloadLocation + " already exists")
+				if _, err := os.Stat(downloadLocation); err == nil {
+					fmt.Printf("File already exists for %s\n", downloadLocation)
+					Debug("File: " + downloadLocation + " already exists for " + url)
+					return
+				}
+
+				// Get File
+				fmt.Printf("Downloading %s to %s", url, downloadLocation)
+				Info("Getting url: " + url)
+
+				request, err := http.NewRequest(http.MethodGet, url, http.NoBody)
+				if err != nil {
+					fmt.Println("Failed to create request: " + url)
+					Debug(err.Error())
+					return
+				}
+
+				response, err := http.DefaultClient.Do(request)
+				if err != nil {
+					fmt.Println("Failed to get url: " + url)
+					Debug(err.Error())
+					return
+				}
+				defer response.Body.Close()
+
+				// Create file
+				Info("Creating file at: " + downloadLocation)
+				out, err := os.Create(downloadLocation)
+				if err != nil {
+					fmt.Println("Failed to create file at: " + downloadLocation)
+					Debug(err.Error())
+					return
+				}
+				defer out.Close()
+
+				// Write to file
+				Info("Writing " + url + " to " + downloadLocation)
+				if _, err := io.Copy(out, response.Body); err != nil {
+					fmt.Printf("Failed to write to file at: %s\n", downloadLocation)
+					Debug(err.Error())
+					return
+				}
+
+				fmt.Println("Downloaded " + url + " to " + downloadLocation)
+			}(url)
+		}
+
+		waitGroup.Wait()
 	},
 }
 
