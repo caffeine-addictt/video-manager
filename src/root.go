@@ -16,6 +16,9 @@ var (
 	cfgFile string
 	verbose bool
 	debug   bool
+
+	// Working Directory
+	workingDir string
 )
 
 // Root command
@@ -36,6 +39,15 @@ func init() {
 	// Verbosity
 	rootCommand.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Verbose output")
 	rootCommand.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "Debug output")
+
+	// Working directory
+	rootCommand.PersistentFlags().StringVarP(&workingDir, "dir", "w", "~/Videos", "Working directory (default is ~/Videos)")
+	if err := viper.BindPFlag("dir", rootCommand.PersistentFlags().Lookup("dir")); err != nil {
+		fmt.Println("Failed to bind persistent flag 'dir'")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+	viper.SetDefault("dir", "~/Videos")
 }
 
 func initConfig() {
