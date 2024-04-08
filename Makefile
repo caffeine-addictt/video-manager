@@ -37,9 +37,10 @@ test:
 
 # =================================== QUALITY ================================== #
 
-## tidy: Tidy mod file
+## tidy: Tidy mod file and format code
 .PHONY: tidy
-tidy: |
+tidy:
+	go fmt ./...
 	go mod tidy -v
 
 ## clean: Clean binaries
@@ -47,10 +48,6 @@ tidy: |
 clean: |
 	go clean && rm ${BINARY_NAME}
 
-## fmt: Format code
-.PHONY: fmt
-fmt:
-	go fmt ./...
 
 # https://golangci-lint.run/welcome/install/
 ## lint: Lint code
