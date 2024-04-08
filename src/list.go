@@ -55,6 +55,10 @@ var listCommand = &cobra.Command{
 			}
 		}
 
+		if len(filenames) == 0 {
+			fmt.Println("No videos found!")
+			os.Exit(1)
+		}
 		fmt.Println(utils.Multiline(filenames...))
 	},
 }
