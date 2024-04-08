@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD013 -->
+
 # The list comamnd
 
 This command lists all videos in your configured download location.
