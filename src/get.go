@@ -54,6 +54,11 @@ var getCommand = &cobra.Command{
 	Short: "Get and download videos",
 	Long:  `Get and download videos from passed file and url(s)`,
 	Run: func(cmd *cobra.Command, args []string) {
+		// Warn on inefficient settings
+		if getFlags.maxConcurrency == 1 && getFlags.strategy == strategyConcurrent {
+			fmt.Println("WARNING: Setting -m to 1 with -s concurrent may not be efficient, please consider using -s synchronous instead.")
+		}
+
 		// Validate working directory exists and is writable
 		dirPath, err := utils.ValidateDirectory(workingDir)
 		if err != nil {
