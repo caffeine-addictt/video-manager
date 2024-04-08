@@ -113,7 +113,7 @@ var getCommand = &cobra.Command{
 
 		// Ensure a URL was passed
 		if len(argSet) == 0 {
-			fmt.Println("No URL(s) were passed!")
+			fmt.Println("No URL(s) were passed! See -h|--help for usage.")
 			os.Exit(1)
 		}
 
