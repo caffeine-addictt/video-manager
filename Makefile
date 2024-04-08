@@ -1,5 +1,4 @@
 BINARY_NAME:=video-manager
-GOBIN:=${HOME}/go/bin
 
 
 # =================================== DEFAULT =================================== #
@@ -52,5 +51,5 @@ clean: |
 # https://golangci-lint.run/welcome/install/
 ## lint: Lint code
 .PHONY: lint
-lint:
-	$(GOBIN)/golangci-lint run -v
+lint: tidy
+	go run github.com/golangci/golangci-lint/cmd/golangci-lint@latest run
