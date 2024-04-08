@@ -6,6 +6,14 @@ This guide provides an overview of the various features and options available.
 
 ## Table of Contents
 
+<!--toc:start-->
+- [Getting started](#getting-started)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Example usage](#example-usage)
+  - [See also](#see-also)
+<!--toc:end-->
+
 ## Overview
 
 This tool is made to help you download and manage videos efficiently.
