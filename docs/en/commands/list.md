@@ -1,4 +1,6 @@
-# The list comamnd
+<!-- markdownlint-disable MD013 -->
+
+# The list command
 
 This command lists all videos in your configured download location.
 
@@ -8,6 +10,7 @@ This command lists all videos in your configured download location.
 - [Table of contents](#table-of-contents)
 - [Basic usage](#basic-usage)
 - [Options](#options)
+  - [-q, --query (defaults to "")](#q-query-defaults-to)
   - [-n, --count [0 = unlimited]](#n-count-0-unlimited)
   - [-a, --allow (defaults to [])](#a-allow-defaults-to)
   - [-e, --exclude (defaults to [])](#e-exclude-defaults-to)
@@ -22,6 +25,19 @@ video-manager list
 ```
 
 ## Options
+
+### -q, --query (defaults to "")
+
+Query to search for videos.
+
+> [!NOTE]
+> RegExp is supported.
+
+```sh
+video-manager list -q "query" # Will check if "query" is in the filename
+video-manager list -q ".*"    # Will match every character
+video-manager list -q "*"     # Will check if "*" is in the filename
+```
 
 ### -n, --count [0 = unlimited]
 
