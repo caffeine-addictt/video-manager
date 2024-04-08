@@ -130,7 +130,7 @@ var getCommand = &cobra.Command{
 			}
 
 			// Get File
-			fmt.Printf("Downloading %s to %s", url, downloadLocation)
+			fmt.Printf("Downloading %s to %s\n", url, downloadLocation)
 			Info("Getting url: " + url)
 
 			request, err := http.NewRequest(http.MethodGet, url, http.NoBody)
