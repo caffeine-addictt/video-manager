@@ -7,7 +7,7 @@ default: all
 
 ## default: Runs build and test
 .PHONY: default
-all: build test
+all: build
 
 # =================================== HELPERS =================================== #
 
@@ -21,8 +21,10 @@ help:
 
 ## build: builds the binary
 .PHONY: build
-build: |
-	go build -o $(BINARY_NAME) main.go
+build: tidy lint test
+	GOARCH=amd64 GOOS=linux   go build -ldflags="-s -w" -o $(BINARY_NAME)-linux main.go
+	GOARCH=amd64 GOOS=darwin  go build -ldflags="-s -w" -o $(BINARY_NAME)-darwin main.go
+	GOARCH=amd64 GOOS=windows go build -ldflags="-s -w" -o $(BINARY_NAME)-windows main.go
 
 ## test: Test the program
 .PHONY: test
@@ -44,9 +46,11 @@ tidy:
 
 ## clean: Clean binaries
 .PHONY: clean
-clean: |
-	go clean && rm ${BINARY_NAME}
-
+clean:
+	go clean
+	rm -f ${BINARY_NAME}-linux
+	rm -f ${BINARY_NAME}-darwin
+	rm -f ${BINARY_NAME}-windows
 
 # https://golangci-lint.run/welcome/install/
 ## lint: Lint code
