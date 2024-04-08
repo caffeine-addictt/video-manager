@@ -2,6 +2,7 @@ package utils
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
@@ -32,4 +33,24 @@ func ValidateDirectory(dir string) (string, error) {
 	}
 
 	return dirPath, nil
+}
+
+func ReadDirectory(dir string, n int) ([]string, error) {
+	dirPath, err := homedir.Expand(dir)
+	if err != nil {
+		return []string{}, errors.WithStack(err)
+	}
+
+	file, err := os.Open(filepath.Clean(dirPath))
+	if err != nil {
+		return []string{}, errors.WithStack(err)
+	}
+	defer file.Close()
+
+	names, err := file.Readdirnames(n)
+	if err != nil {
+		return nil, err
+	}
+
+	return names, nil
 }
