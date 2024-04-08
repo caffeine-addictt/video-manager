@@ -84,7 +84,7 @@ video-manager get -s concurrent -m 10 https://video-site.com/video.mp4 https://m
 
 ### Inherited
 
-See [persistend options](./index.md#persistent-options) for all the supported inherited options.
+See [persistent options](./index.md#persistent-options) for all the supported inherited options.
 
 ## See also
 
