@@ -239,6 +239,12 @@ func init() {
 		Debug(err.Error())
 		os.Exit(1)
 	}
+
+	if err := getCommand.MarkFlagFilename("file"); err != nil {
+		fmt.Println("Failed to mark flag -f as filename in get command")
+		Debug(err.Error())
+		os.Exit(1)
+	}
 }
 
 func strategyCompletion(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
