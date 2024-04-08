@@ -53,25 +53,8 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-_Below is an example of how you can install and use Video Manager._
-
-#### 1. Clone the Repository
-
 ```sh
-git clone https://github.com/caffeine-addictt/video-manager
-cd video-manager
-```
-
-#### 2. Install Dependencies
-
-```sh
-go get .
-```
-
-#### 3. Run the tool
-
-```sh
-go run main.go
+go get github.com/caffeine-addictt/video-manager
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
