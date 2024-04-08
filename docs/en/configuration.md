@@ -1,16 +1,33 @@
-<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD033 MD013 -->
 
-# Getting started
+# Configuration
 
-This guide provides an overview of the various features and options available.
+## Table of Contents
 
-<!-- TOC -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#placeholder">Placeholder</a></li>
-  </ol>
-</details>
+<!--toc:start-->
+* [Table of Contents](#table-of-contents)
+* [Overview](#overview)
+* [Default configuration](#default-configuration)
+* [See Also](#see-also)
+<!--toc:end-->
 
-<!-- Contents -->
-## Placeholder
+## Overview
+
+Configuration files are searched in this order:
+
+* Working directory `(./)`
+* Home directory `($HOME)`
+
+You can also pass the `-w` or `--dir` flag to specify a path to a configuration file.
+If `-w` is not provided, configuration files should be named `.video-manager` and follow [yaml](https://yaml.org/) syntax.
+
+## Default configuration
+
+```yaml
+# This is where all video files will be stored
+.dir: ~/.Videos
+```
+
+## See Also
+
+* [Commands](./commands/index.md)
