@@ -25,6 +25,19 @@ video-manager list
 
 ## Options
 
+### -q, --query (defaults to "")
+
+Query to search for videos.
+
+> [!NOTE]
+> RegExp is supported.
+
+```sh
+video-manager list -q "query" # Will check if "query" is in the filename
+video-manager list -q ".*"    # Will match every character
+video-manager list -q "*"     # Will check if "*" is in the filename
+```
+
 ### -n, --count [0 = unlimited]
 
 You can specify the maximum number of videos to list. It is `00` by default, and is unlimited if set to `0`.
