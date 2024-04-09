@@ -49,7 +49,6 @@ var listCommand = &cobra.Command{
 				split := strings.Split(filenames[i], ".")
 				extension := split[len(split)-1]
 
-				// if !strings.Contains(filenames[i], listFlags.query) {
 				match, err := regexp.MatchString(listFlags.query, filenames[i])
 				if err != nil {
 					Info("RegExp failed to match " + filenames[i] + ": " + err.Error())
