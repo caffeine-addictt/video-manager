@@ -46,7 +46,7 @@ func (e *strategyEnum) Type() string {
 var getFlags struct {
 	inputFile      string
 	strategy       strategyEnum
-	maxConcurrency int64
+	maxConcurrency int
 }
 
 var getCommand = &cobra.Command{
@@ -232,7 +232,7 @@ func init() {
 
 	rootCommand.AddCommand(getCommand)
 	getCommand.Flags().StringVarP(&getFlags.inputFile, "file", "f", "", "Path to the input file containing the url(s)")
-	getCommand.Flags().Int64VarP(&getFlags.maxConcurrency, "max-concurrency", "m", 10, "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")
+	getCommand.Flags().IntVarP(&getFlags.maxConcurrency, "max-concurrency", "m", 10, "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")
 	getCommand.Flags().VarP(&getFlags.strategy, "strategy", "s", "Strategy to use when downloading (default is concurrent)")
 	if err := getCommand.RegisterFlagCompletionFunc("strategy", strategyCompletion); err != nil {
 		fmt.Println("Failed to register completion for flag -s in get command")
