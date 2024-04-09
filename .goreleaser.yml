@@ -44,7 +44,6 @@ brews:
   - homepage: "https://github.com/caffeine-addictt/video-manager"
     license: "MIT"
     skip_upload: auto
-    folder: Formula
     repository:
       owner: caffeine-addictt
       name: homebrew-tap
