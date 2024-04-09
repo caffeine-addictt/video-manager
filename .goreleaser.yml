@@ -44,12 +44,12 @@ brews:
   - homepage: "https://github.com/caffeine-addictt/video-manager"
     license: "MIT"
     skip_upload: auto
-    folder: Formula
+    directory: Formula
     repository:
       owner: caffeine-addictt
       name: homebrew-tap
       branch: main
-      token: "{{ .Env.GITHUB_TOKEN }}"
+      token: "{{ .Env.GH_PAT }}"
       pull_request:
         enabled: true
         draft: true
