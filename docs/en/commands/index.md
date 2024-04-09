@@ -33,6 +33,7 @@ If not specified, the `.video-manager` file is looked for in this order:
 
 ## Commands
 
+- [delete](./delete.md)
 - [get](./get.md)
 - [list](./list.md)
 - [version](./version.md)
