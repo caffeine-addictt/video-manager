@@ -67,6 +67,25 @@ aurs:
       # man pages
       # install -Dm644 "./manpages/mybin.1.gz" "${pkgdir}/usr/share/man/man1/mybin.1.gz"
 
+brews:
+  - homepage: "https://github.com/caffeine-addictt/video-manager"
+    license: "MIT"
+    skip_upload: true
+    folder: Formula
+    repository:
+      owner: caffeine-addictt
+      name: homebrew-tap
+      branch: main
+      token: "{{ .Env.GITHUB_TOKEN }}"
+      pull_request:
+        enabled: true
+        draft: true
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    description: "CLI tool for downloading and managing videos"
+
 release:
   ids: [default]
   draft: true
