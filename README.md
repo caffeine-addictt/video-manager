@@ -54,7 +54,7 @@ To get a local copy up and running follow these simple example steps.
 ### Installation
 
 ```sh
-go get github.com/caffeine-addictt/video-manager
+go get github.com/caffeine-addictt/video-manager@latest
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
