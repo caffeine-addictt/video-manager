@@ -6,8 +6,8 @@ authors:
     orcid: https://orcid.org/0009-0001-1641-9397
 identifiers:
   - type: url
-    value: https://github.com/caffeine-addictt/video-manager/releases/tag/v0.0.3
-    description: The GitHub release URL of tag v0.0.3.
+    value: https://github.com/caffeine-addictt/video-manager/releases/tag/v0.0.4
+    description: The GitHub release URL of tag v0.0.4.
 cff-version: 1.2.0
 date-released: 2024-04-08
 keywords:
@@ -20,4 +20,4 @@ message: If you use this software, please cite it using these metadata.
 repository-code: https://github.com/caffeine-addictt/video-manager
 title: thread
 type: software
-version: 0.0.3
+version: 0.0.4
