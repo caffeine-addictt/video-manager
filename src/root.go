@@ -8,6 +8,7 @@ import (
 	"github.com/caffeine-addictt/video-manager/src/utils"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
 
@@ -93,6 +94,18 @@ func initConfig() {
 			os.Exit(1)
 		}
 	}
+
+	// Update cobra flags with viper environment
+	viper.AutomaticEnv()
+	rootCommand.Flags().VisitAll(func(f *pflag.Flag) {
+		if viper.IsSet(f.Name) {
+			if err := rootCommand.Flags().Set(f.Name, viper.GetString(f.Name)); err != nil {
+				fmt.Printf("Failed to set flag '%s' to value '%s'\n", f.Name, viper.GetString(f.Name))
+				os.Exit(1)
+			}
+		}
+	})
+
 	Info("Loaded configuration from " + viper.ConfigFileUsed())
 }
 
