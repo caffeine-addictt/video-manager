@@ -53,8 +53,17 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
+Natively with Go
+
 ```sh
 go get github.com/caffeine-addictt/video-manager@latest
+```
+
+With Homebrew
+
+```sh
+brew tap caffeine-addictt/tap
+brew install caffeine-addictt/tap/video-manager
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
