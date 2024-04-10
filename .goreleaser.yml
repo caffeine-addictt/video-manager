@@ -44,7 +44,7 @@ brews:
   - homepage: "https://github.com/caffeine-addictt/video-manager"
     license: "MIT"
     skip_upload: auto
-    directory: Formula
+    directory: Formula/video-manager
     repository:
       owner: caffeine-addictt
       name: homebrew-tap
@@ -56,7 +56,7 @@ brews:
         base:
           owner: caffeine-addictt
           name: homebrew-tap
-          branch: "{{ .ProjectName }}-{{ .Tag }}"
+          branch: "video-manager"
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
