@@ -56,7 +56,7 @@ brews:
         base:
           owner: caffeine-addictt
           name: homebrew-tap
-          branch: "{{ .ProjectName }}-{{ .Tag }}"
+          branch: "video-manager"
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
