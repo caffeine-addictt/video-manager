@@ -108,6 +108,18 @@ func initConfig() {
 	})
 
 	Debug("Loaded configuration from " + viper.ConfigFileUsed())
+
+	// Making caching file `$HOME/.video-manager_history`
+	Debug("Writing cache file if it does not exist at " + home + "/.video-manager_history")
+	file, err := os.OpenFile(filepath.Clean(filepath.Join(home, ".video-manager_history")), os.O_RDWR|os.O_CREATE, 0o600)
+	if err != nil {
+		fmt.Println("Failed to write cache file at " + home + "/.video-manager_history")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+	defer file.Close()
+
+	Debug("Ensured cache file exists at " + home + "/.video-manager_history")
 }
 
 func Execute() {
