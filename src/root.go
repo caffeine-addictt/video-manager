@@ -17,6 +17,7 @@ var (
 	cfgFile string
 	verbose bool
 	debug   bool
+	cacheFile string
 
 	// Working Directory
 	workingDir string
@@ -36,6 +37,7 @@ var rootCommand = &cobra.Command{
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCommand.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.video-manager)")
+	rootCommand.PersistentFlags().StringVarP(&cacheFile, "cache", "C", "", "cache file (default is $HOME/.video-manager_history)")
 
 	// Verbosity
 	rootCommand.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Verbose output")
