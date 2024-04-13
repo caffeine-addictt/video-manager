@@ -265,17 +265,18 @@ func init() {
 	getFlags.strategy = strategyConcurrent
 
 	rootCommand.AddCommand(getCommand)
-	getCommand.Flags().StringVarP(&getFlags.inputFile, "file", "f", "", "Path to the input file containing the url(s)")
 	getCommand.Flags().IntVarP(&getFlags.maxConcurrency, "max-concurrency", "m", 10, "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")
-	getCommand.Flags().VarP(&getFlags.strategy, "strategy", "s", "Strategy to use when downloading (default is concurrent)")
-	if err := getCommand.RegisterFlagCompletionFunc("strategy", strategyCompletion); err != nil {
-		fmt.Println("Failed to register completion for flag -s in get command")
+
+	getCommand.Flags().StringVarP(&getFlags.inputFile, "file", "f", "", "Path to the input file containing the url(s)")
+	if err := getCommand.MarkFlagFilename("file"); err != nil {
+		fmt.Println("Failed to mark flag -f as filename in get command")
 		Debug(err.Error())
 		os.Exit(1)
 	}
 
-	if err := getCommand.MarkFlagFilename("file"); err != nil {
-		fmt.Println("Failed to mark flag -f as filename in get command")
+	getCommand.Flags().VarP(&getFlags.strategy, "strategy", "s", "Strategy to use when downloading (default is concurrent)")
+	if err := getCommand.RegisterFlagCompletionFunc("strategy", strategyCompletion); err != nil {
+		fmt.Println("Failed to register completion for flag -s in get command")
 		Debug(err.Error())
 		os.Exit(1)
 	}

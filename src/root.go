@@ -51,8 +51,20 @@ func init() {
 // Configuration
 func init() {
 	cobra.OnInitialize(initConfig)
+
 	rootCommand.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.video-manager)")
+	if err := rootCommand.MarkPersistentFlagFilename("config"); err != nil {
+		fmt.Println("Failed to mark flag -c as filename in root command")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+
 	rootCommand.PersistentFlags().StringVarP(&cacheFile, "cache", "C", "", "cache file (default is $HOME/.video-manager_history)")
+	if err := rootCommand.MarkPersistentFlagFilename("cache"); err != nil {
+		fmt.Println("Failed to mark flag -C as filename in root command")
+		Debug(err.Error())
+		os.Exit(1)
+	}
 	viper.SetDefault("cache", filepath.Clean(filepath.Join(home, ".video-manager_history")))
 	if err := viper.BindPFlag("cache", rootCommand.PersistentFlags().Lookup("cache")); err != nil {
 		fmt.Println("Failed to bind persistent flag 'cache'")
@@ -66,12 +78,17 @@ func init() {
 
 	// Working directory
 	rootCommand.PersistentFlags().StringVarP(&workingDir, "dir", "w", "~/Videos", "Working directory (default is ~/Videos)")
+	if err := rootCommand.MarkPersistentFlagDirname("dir"); err != nil {
+		fmt.Println("Failed to mark flag -w as dirname in root command")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+	viper.SetDefault("dir", "~/Videos")
 	if err := viper.BindPFlag("dir", rootCommand.PersistentFlags().Lookup("dir")); err != nil {
 		fmt.Println("Failed to bind persistent flag 'dir'")
 		Debug(err.Error())
 		os.Exit(1)
 	}
-	viper.SetDefault("dir", "~/Videos")
 }
 
 func initConfig() {
