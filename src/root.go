@@ -14,10 +14,14 @@ import (
 
 // Global variables
 var (
-	cfgFile string
-	verbose bool
-	debug   bool
+	// Global
+	home string
+
+	// Flags
+	cfgFile   string
 	cacheFile string
+	verbose   bool
+	debug     bool
 
 	// Working Directory
 	workingDir string
@@ -33,11 +37,23 @@ var rootCommand = &cobra.Command{
 	),
 }
 
+func init() {
+	home_, err := homedir.Dir()
+	if err != nil {
+		fmt.Println("Failed to get home directory")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+
+	home = home_
+}
+
 // Configuration
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCommand.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.video-manager)")
 	rootCommand.PersistentFlags().StringVarP(&cacheFile, "cache", "C", "", "cache file (default is $HOME/.video-manager_history)")
+	viper.SetDefault("cache", filepath.Clean(filepath.Join(home, ".video-manager_history")))
 
 	// Verbosity
 	rootCommand.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Verbose output")
@@ -55,13 +71,6 @@ func init() {
 
 func initConfig() {
 	viper.SetConfigType("yaml")
-
-	home, err := homedir.Dir()
-	if err != nil {
-		fmt.Println("Failed to get home directory")
-		Debug(err.Error())
-		os.Exit(1)
-	}
 
 	if cfgFile != "" {
 		// Reading provided configuration file
