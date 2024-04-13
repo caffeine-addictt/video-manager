@@ -52,6 +52,8 @@ func init() {
 }
 
 func initConfig() {
+	viper.SetConfigType("yaml")
+
 	home, err := homedir.Dir()
 	if err != nil {
 		fmt.Println("Failed to get home directory")
@@ -68,7 +70,6 @@ func initConfig() {
 		viper.AddConfigPath(".")
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".video-manager")
-		viper.SetConfigType("yaml")
 		Debug("-c not supplied, looking for configuration file in " + home + " or pwd")
 	}
 
