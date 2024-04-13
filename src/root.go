@@ -107,7 +107,7 @@ func initConfig() {
 		}
 	})
 
-	Info("Loaded configuration from " + viper.ConfigFileUsed())
+	Debug("Loaded configuration from " + viper.ConfigFileUsed())
 }
 
 func Execute() {
