@@ -54,6 +54,11 @@ func init() {
 	rootCommand.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.video-manager)")
 	rootCommand.PersistentFlags().StringVarP(&cacheFile, "cache", "C", "", "cache file (default is $HOME/.video-manager_history)")
 	viper.SetDefault("cache", filepath.Clean(filepath.Join(home, ".video-manager_history")))
+	if err := viper.BindPFlag("cache", rootCommand.PersistentFlags().Lookup("cache")); err != nil {
+		fmt.Println("Failed to bind persistent flag 'cache'")
+		Debug(err.Error())
+		os.Exit(1)
+	}
 
 	// Verbosity
 	rootCommand.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Verbose output")
