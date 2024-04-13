@@ -123,6 +123,42 @@ var getCommand = &cobra.Command{
 			os.Exit(1)
 		}
 
+		// Caching URLS
+		var waitGroup sync.WaitGroup
+		waitGroup.Add(1)
+
+		go func() {
+			defer waitGroup.Done()
+			fmt.Println("Writing URLs to cache file...")
+
+			file, err := os.OpenFile(cacheFile, os.O_RDWR|os.O_APPEND, 0o600)
+			if err != nil {
+				fmt.Println("Failed to open cache file at " + cacheFile)
+				Debug(err.Error())
+				return
+			}
+			defer file.Close()
+
+			// Buffer writer
+			buffer := bufio.NewWriter(file)
+			for downloadURL := range argSet {
+				if _, err := buffer.WriteString(downloadURL + "\n"); err != nil {
+					fmt.Println("Failed to write to cache file at " + cacheFile)
+					Debug(err.Error())
+					return
+				}
+			}
+
+			// Write to file
+			if err := buffer.Flush(); err != nil {
+				fmt.Println("Failed to write cache file at " + cacheFile)
+				Debug(err.Error())
+				return
+			}
+
+			fmt.Println("Wrote " + fmt.Sprint(len(argSet)) + " url(s) to cache file")
+		}()
+
 		downloadFile := func(url string) {
 			split := strings.Split(url, "/")
 			downloadLocation := filepath.Clean(filepath.Join(dirPath, split[len(split)-1]))
@@ -178,8 +214,6 @@ var getCommand = &cobra.Command{
 		// Handle downloading
 		switch getFlags.strategy {
 		case strategyConcurrent:
-			var waitGroup sync.WaitGroup
-
 			// Concurrency with no limit
 			if getFlags.maxConcurrency == 0 {
 				fmt.Println("Downloading concurrently... [No limit]")
@@ -215,8 +249,6 @@ var getCommand = &cobra.Command{
 
 				close(ch)
 			}
-
-			waitGroup.Wait()
 		case strategySynchronous:
 			fmt.Println("Downloading synchronously...")
 
@@ -224,6 +256,8 @@ var getCommand = &cobra.Command{
 				downloadFile(url)
 			}
 		}
+
+		waitGroup.Wait()
 	},
 }
 
