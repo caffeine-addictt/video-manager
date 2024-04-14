@@ -216,7 +216,7 @@ var getCommand = &cobra.Command{
 		case strategyConcurrent:
 			// Concurrency with no limit
 			if getFlags.maxConcurrency == 0 {
-				fmt.Println("Downloading concurrently... [No limit]")
+				fmt.Printf("Downloading concurrently... [Use: %d, Max: No limit]", len(argSet))
 				waitGroup.Add(len(argSet))
 
 				for url := range argSet {
@@ -228,12 +228,13 @@ var getCommand = &cobra.Command{
 
 				// Concurrency with limit
 			} else {
-				fmt.Printf("Downloading concurrently... [Max: %d]\n", getFlags.maxConcurrency)
-				waitGroup.Add(int(getFlags.maxConcurrency))
+				resolvedConcurrency := min(len(argSet), getFlags.maxConcurrency)
+				fmt.Printf("Downloading concurrently... [Use: %d, Max: %d]\n", resolvedConcurrency, getFlags.maxConcurrency)
 
 				// Establish channel and workers
+				waitGroup.Add(resolvedConcurrency)
 				ch := make(chan string)
-				for t := 0; t < int(getFlags.maxConcurrency); t++ {
+				for t := 0; t < resolvedConcurrency; t++ {
 					go func() {
 						for url := range ch {
 							downloadFile(url)
