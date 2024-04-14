@@ -70,19 +70,15 @@ var getCommand = &cobra.Command{
 		// Turn all URLS to a map to eliminate duplicates
 		// We map string: struct{} for the smallest memory footprint
 		argSet := make(map[string]struct{})
-		for _, arg := range args {
-			argSet[arg] = struct{}{}
-		}
+		nonURLSet := make(map[string]Similarity)
 
-		// Validate explicitly passed URL(s)
-		if len(argSet) > 0 {
-			Debug("Validating passed URL(s)")
-			for rawURL := range argSet {
-				if _, err := url.ParseRequestURI(rawURL); err != nil {
-					fmt.Println("Invalid URL: " + rawURL)
-					os.Exit(1)
-				}
+		for _, arg := range args {
+			if _, err := url.ParseRequestURI(arg); err != nil {
+				Debug("Invalid URL: " + arg)
+				nonURLSet[arg] = make(Similarity, 10)
+				continue
 			}
+			argSet[arg] = struct{}{}
 		}
 
 		// Fetch URLs from file
@@ -109,8 +105,9 @@ var getCommand = &cobra.Command{
 
 				// Validate URL
 				if _, err := url.ParseRequestURI(scanner.Text()); err != nil {
-					fmt.Println("Invalid URL: " + scanner.Text())
-					os.Exit(1)
+					Debug("Invalid URL: " + scanner.Text())
+					nonURLSet[scanner.Text()] = make(Similarity, 10)
+					continue
 				}
 				argSet[scanner.Text()] = struct{}{}
 			}
