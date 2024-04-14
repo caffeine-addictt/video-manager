@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -41,6 +42,10 @@ func (e *strategyEnum) Set(value string) error {
 func (e *strategyEnum) Type() string {
 	return "strategy"
 }
+
+// Non URL similarity
+// The resolved URLs from cache to the similarity score
+type Similarity map[string]int8
 
 // Command stuff
 var getFlags struct {
@@ -126,7 +131,95 @@ var getCommand = &cobra.Command{
 		}
 		defer file.Close()
 
+		// Provide completions from cache file
+		if len(nonURLSet) > 0 {
+			Info("Reading cache file to complete URL(s)...")
+			scanner := bufio.NewScanner(file)
+			for scanner.Scan() {
+				// Skip if url already in argSet
+				if _, ok := argSet[scanner.Text()]; ok {
+					continue
+				}
+
+				// Skip if not a valid url
+				if _, err := url.ParseRequestURI(scanner.Text()); err != nil {
+					continue
+				}
+
+				for nonURL, curr := range nonURLSet {
+					similar := int8(utils.SimilarityScore(nonURL, scanner.Text()))
+					if similar == 0 {
+						continue
+					}
+
+					// Add if lesser than 10
+					if len(curr) < 10 {
+						nonURLSet[nonURL][scanner.Text()] = similar
+						continue
+					}
+
+					// Add if current has higher score
+					lowestKey := ""
+					for i, comp := range curr {
+						if comp < similar {
+							if lowestKey == "" || comp < curr[lowestKey] {
+								lowestKey = i
+							}
+						}
+					}
+
+					if lowestKey != "" {
+						nonURLSet[nonURL][lowestKey] = similar
+					}
+				}
+			}
+
+			Debug("Similar urls found in cache: " + fmt.Sprint(nonURLSet))
+
+			// Prompt for proper url
+			Info("Prompting user for proper URL...")
+			for prev, comp := range nonURLSet {
+				if len(comp) == 0 {
+					fmt.Printf("No similar URLs found in cache for %s\n", prev)
+					os.Exit(1)
+				}
+
+				ask := make([]string, 0, 10)
+				mapping := map[int]string{}
+				i := 0
+				for key, score := range comp {
+					ask = append(ask, fmt.Sprintf("%d. %s (%d%% match)", i, key, score))
+					mapping[i] = key
+					i++
+				}
+
+				var index int8
+				response := utils.InputPrompt(utils.Multiline(append(ask, "", "Passed: "+prev, "Which url do you want to use? (Default: 0)")...))
+				if response == "" {
+					index = 0
+				} else {
+					i, err := strconv.ParseInt(response, 10, 8)
+					if err != nil {
+						fmt.Printf("%s is not a valid number\n", response)
+						Debug(err.Error())
+						os.Exit(1)
+					}
+					index = int8(i)
+				}
+
+				if index < 0 || index > int8(len(comp)) {
+					fmt.Printf("%d is not a valid index\n", i)
+					Debug(err.Error())
+					os.Exit(1)
+				}
+
+				Info("Using url: " + mapping[int(index)])
+				argSet[mapping[int(index)]] = struct{}{}
+			}
+		}
+
 		// Ensure a URL was passed
+		Debug("Final URL(s): " + fmt.Sprint(argSet))
 		if len(argSet) == 0 {
 			fmt.Println("No URL(s) were passed! See -h|--help for usage.")
 			os.Exit(1)
