@@ -5,10 +5,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"mime"
 	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -255,21 +257,8 @@ var getCommand = &cobra.Command{
 		}()
 
 		downloadFile := func(url string) {
-			split := strings.Split(url, "/")
-			downloadLocation := filepath.Clean(filepath.Join(dirPath, split[len(split)-1]))
-
-			// Ensure file already does not exist
-			Info("Checking if " + downloadLocation + " already exists")
-			if _, err := os.Stat(downloadLocation); err == nil {
-				fmt.Printf("File already exists for %s\n", downloadLocation)
-				Debug("File: " + downloadLocation + " already exists for " + url)
-				return
-			}
-
-			// Get File
-			fmt.Printf("Downloading %s to %s\n", url, downloadLocation)
+			// Get file
 			Info("Getting url: " + url)
-
 			request, err := http.NewRequest(http.MethodGet, url, http.NoBody)
 			if err != nil {
 				fmt.Println("Failed to create request: " + url)
@@ -284,6 +273,33 @@ var getCommand = &cobra.Command{
 				return
 			}
 			defer response.Body.Close()
+
+			split := strings.Split(url, "/")
+			fileName := split[len(split)-1]
+
+			if strings.Contains(fileName, ".") {
+				Info("Resolving file extension from content type...")
+				contentType := response.Header.Get("Content-Type")
+				extensions, err := mime.ExtensionsByType(contentType)
+				if err != nil || len(extensions) == 0 {
+					fmt.Println("Failed to resolve extension automatically for content type: " + contentType)
+					if err != nil {
+						Debug(err.Error())
+					}
+					return
+				}
+
+				fileName += extensions[0]
+			}
+			downloadLocation := filepath.Clean(filepath.Join(dirPath, fileName))
+
+			// Ensure file already does not exist
+			Info("Checking if " + downloadLocation + " already exists")
+			if _, err := os.Stat(downloadLocation); err == nil {
+				fmt.Printf("File already exists for %s\n", downloadLocation)
+				Debug("File: " + downloadLocation + " already exists for " + url)
+				return
+			}
 
 			// Create file
 			Info("Creating file at: " + downloadLocation)
