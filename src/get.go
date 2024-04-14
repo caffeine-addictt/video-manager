@@ -113,6 +113,18 @@ var getCommand = &cobra.Command{
 			}
 			Info("Read " + fmt.Sprint(len(args)-preURLCount) + " url(s) from " + getFlags.inputFile)
 		}
+		Debug("Valid URL(s): " + fmt.Sprint(argSet))
+		Debug("Non URL(s): " + fmt.Sprint(nonURLSet))
+
+		// Open cache file
+		Debug("Opening cache file at " + cacheFile)
+		file, err := os.OpenFile(cacheFile, os.O_RDWR|os.O_APPEND, 0o600)
+		if err != nil {
+			fmt.Println("Failed to open cache file at " + cacheFile)
+			Debug(err.Error())
+			return
+		}
+		defer file.Close()
 
 		// Ensure a URL was passed
 		if len(argSet) == 0 {
@@ -127,14 +139,6 @@ var getCommand = &cobra.Command{
 		go func() {
 			defer waitGroup.Done()
 			fmt.Println("Writing URLs to cache file...")
-
-			file, err := os.OpenFile(cacheFile, os.O_RDWR|os.O_APPEND, 0o600)
-			if err != nil {
-				fmt.Println("Failed to open cache file at " + cacheFile)
-				Debug(err.Error())
-				return
-			}
-			defer file.Close()
 
 			// Buffer writer
 			buffer := bufio.NewWriter(file)
