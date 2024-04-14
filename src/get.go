@@ -147,7 +147,8 @@ var getCommand = &cobra.Command{
 				}
 
 				for nonURL, curr := range nonURLSet {
-					similar := int8(utils.SimilarityScore(nonURL, scanner.Text()))
+					stripProtocol := regexp.MustCompile(`^(https?://)?(www\.)?`)
+					similar := int8(utils.SimilarityScore(nonURL, stripProtocol.ReplaceAllString(scanner.Text(), "")))
 					if similar == 0 {
 						continue
 					}
