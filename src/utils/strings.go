@@ -24,3 +24,24 @@ func InputPrompt(text string) string {
 	}
 	return strings.TrimSpace(s)
 }
+
+func SimilarityScore(s1, s2 string) int {
+	// Calculate how similar two strings are [0-100]
+	if s1 == s2 {
+		return 100
+	}
+
+	similar := 0
+	least := min(len(s1), len(s2))
+	for i := 0; i < least; i++ {
+		if s1[i] == s2[i] {
+			similar++
+		}
+	}
+
+	if least == 0 {
+		least = 1
+	}
+
+	return similar * 100 / least
+}
