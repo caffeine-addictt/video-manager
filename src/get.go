@@ -300,7 +300,7 @@ var getCommand = &cobra.Command{
 		case utils.StrategyConcurrent:
 			// Concurrency with no limit
 			if getFlags.maxConcurrency == 0 {
-				fmt.Printf("Downloading concurrently... [Use: %d, Max: No limit]", len(argSet))
+				fmt.Printf("Downloading concurrently... [Use: %d, Max: No limit]\n", len(argSet))
 				waitGroup.Add(len(argSet))
 
 				for url := range argSet {
