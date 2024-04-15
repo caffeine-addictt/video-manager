@@ -39,6 +39,7 @@ If not specified, the `~/.video-manager_history` file is used, or otherwise defi
 
 ## Commands
 
+- [cache clear|list|remove](./cache.md)
 - [delete](./delete.md)
 - [get](./get.md)
 - [list](./list.md)
