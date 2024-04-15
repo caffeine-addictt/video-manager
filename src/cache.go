@@ -46,6 +46,8 @@ var cacheListCommand = &cobra.Command{
 
 			if strings.HasPrefix(stripped, args[0]) {
 				fmt.Println(buffer.Text())
+			} else if matched, err := regexp.MatchString(args[0], buffer.Text()); err != nil && matched {
+				fmt.Println(buffer.Text())
 			}
 		}
 	},
