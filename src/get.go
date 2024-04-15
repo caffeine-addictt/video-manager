@@ -26,7 +26,7 @@ type Similarity map[string]int8
 var getFlags struct {
 	inputFile      utils.FilePathFlag
 	strategy       utils.StrategyEnum
-	maxConcurrency int
+	maxConcurrency utils.PositiveIntFlag
 }
 
 var getCommand = &cobra.Command{
@@ -312,7 +312,7 @@ var getCommand = &cobra.Command{
 
 				// Concurrency with limit
 			} else {
-				resolvedConcurrency := min(len(argSet), getFlags.maxConcurrency)
+				resolvedConcurrency := min(len(argSet), getFlags.maxConcurrency.Int())
 				fmt.Printf("Downloading concurrently... [Use: %d, Max: %d]\n", resolvedConcurrency, getFlags.maxConcurrency)
 
 				// Establish channel and workers
@@ -347,10 +347,11 @@ var getCommand = &cobra.Command{
 }
 
 func init() {
+	getFlags.maxConcurrency = 10
 	getFlags.strategy = utils.StrategyConcurrent
 
 	rootCommand.AddCommand(getCommand)
-	getCommand.Flags().IntVarP(&getFlags.maxConcurrency, "max-concurrency", "m", 10, "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")
+	getCommand.Flags().VarP(&getFlags.maxConcurrency, "max-concurrency", "m", "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")
 
 	getCommand.Flags().VarP(&getFlags.inputFile, "file", "f", "Path to the input file containing the url(s)")
 	if err := getCommand.MarkFlagFilename("file"); err != nil {
