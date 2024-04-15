@@ -25,7 +25,10 @@ If `-w` is not provided, configuration files should be named `.video-manager` an
 
 ```yaml
 # This is where all video files will be stored
-.dir: ~/.Videos
+dir: ~/.Videos
+
+# This is where download urls are cached
+cache: ~/.video-manager_history
 ```
 
 ## See Also

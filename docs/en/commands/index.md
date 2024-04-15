@@ -31,6 +31,12 @@ If not specified, the `.video-manager` file is looked for in this order:
 - The current working directory (`./.video-manager`)
 - The user's home directory (`~/.video-manager`)
 
+### -C, --cache <path>
+
+Uses the specified cache file.
+
+If not specified, the `~/.video-manager_history` file is used, or otherwise defined in the [configuration file](../configuration.md).
+
 ## Commands
 
 - [delete](./delete.md)
