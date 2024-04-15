@@ -26,8 +26,8 @@ var cacheListCommand = &cobra.Command{
 	Aliases: []string{"ls"},
 	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		Debug("Opening cache file at " + cacheFile)
-		file, err := os.Open(cacheFile)
+		Debug("Opening cache file at " + cacheFile.String())
+		file, err := os.Open(cacheFile.String())
 		if err != nil {
 			fmt.Println("Failed to open cache file")
 			Debug(err.Error())
@@ -74,8 +74,8 @@ var cacheRemoveCommand = &cobra.Command{
 			os.Exit(1)
 		}
 
-		Debug("Opening cache file at " + cacheFile)
-		file, err := os.Open(cacheFile)
+		Debug("Opening cache file at " + cacheFile.String())
+		file, err := os.Open(cacheFile.String())
 		if err != nil {
 			fmt.Println("Failed to open cache file")
 			Debug(err.Error())
@@ -171,8 +171,8 @@ var cacheClearCommand = &cobra.Command{
 	Aliases: []string{"wipe", "clr"},
 	Args:    cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		Debug("Creating/Truncating cache file at " + cacheFile)
-		file, err := os.OpenFile(cacheFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0o600)
+		Debug("Creating/Truncating cache file at " + cacheFile.String())
+		file, err := os.OpenFile(cacheFile.String(), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0o600)
 		if err != nil {
 			fmt.Println("Failed to clear the cache at " + cacheFile)
 			Debug(err.Error())

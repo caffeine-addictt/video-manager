@@ -24,7 +24,7 @@ type Similarity map[string]int8
 
 // Command stuff
 var getFlags struct {
-	inputFile      string
+	inputFile      utils.FilePathFlag
 	strategy       utils.StrategyEnum
 	maxConcurrency int
 }
@@ -40,7 +40,7 @@ var getCommand = &cobra.Command{
 		}
 
 		// Validate working directory exists and is writable
-		dirPath, err := utils.ValidateDirectory(workingDir)
+		dirPath, err := utils.ValidateDirectory(workingDir.String())
 		if err != nil {
 			fmt.Printf("Failed to validate working directory: %#v\n", workingDir)
 			Debug(err.Error())
@@ -64,13 +64,13 @@ var getCommand = &cobra.Command{
 		// Fetch URLs from file
 		if getFlags.inputFile != "" {
 			Debug("-f was passed, reading url(s) from file")
-			file, err := os.Open(getFlags.inputFile)
+			file, err := os.Open(getFlags.inputFile.String())
 			if err != nil {
 				fmt.Printf("Failed to read file at %s\n", getFlags.inputFile)
 				Debug(err.Error())
 				os.Exit(1)
 			}
-			Debug("Closing file at " + getFlags.inputFile)
+			Debug("Closing file at " + getFlags.inputFile.String())
 			defer file.Close()
 
 			// Read URLs from file, line by line
@@ -91,14 +91,14 @@ var getCommand = &cobra.Command{
 				}
 				argSet[scanner.Text()] = struct{}{}
 			}
-			Info("Read " + fmt.Sprint(len(args)-preURLCount) + " url(s) from " + getFlags.inputFile)
+			Info("Read " + fmt.Sprint(len(args)-preURLCount) + " url(s) from " + getFlags.inputFile.String())
 		}
 		Debug("Valid URL(s): " + fmt.Sprint(argSet))
 		Debug("Non URL(s): " + fmt.Sprint(nonURLSet))
 
 		// Open cache file
-		Debug("Opening cache file at " + cacheFile)
-		file, err := os.OpenFile(cacheFile, os.O_RDWR|os.O_APPEND, 0o600)
+		Debug("Opening cache file at " + cacheFile.String())
+		file, err := os.OpenFile(cacheFile.String(), os.O_RDWR|os.O_APPEND, 0o600)
 		if err != nil {
 			fmt.Println("Failed to open cache file at " + cacheFile)
 			Debug(err.Error())
@@ -352,7 +352,7 @@ func init() {
 	rootCommand.AddCommand(getCommand)
 	getCommand.Flags().IntVarP(&getFlags.maxConcurrency, "max-concurrency", "m", 10, "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")
 
-	getCommand.Flags().StringVarP(&getFlags.inputFile, "file", "f", "", "Path to the input file containing the url(s)")
+	getCommand.Flags().VarP(&getFlags.inputFile, "file", "f", "Path to the input file containing the url(s)")
 	if err := getCommand.MarkFlagFilename("file"); err != nil {
 		fmt.Println("Failed to mark flag -f as filename in get command")
 		Debug(err.Error())

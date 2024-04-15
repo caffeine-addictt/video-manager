@@ -21,7 +21,7 @@ var deleteCommand = &cobra.Command{
 	Short:   "Delete videos from the source directory",
 	Args:    cobra.ExactArgs(1),
 	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
-		filenames, err := utils.ReadDirectory(workingDir, 0)
+		filenames, err := utils.ReadDirectory(workingDir.String(), 0)
 		if err != nil {
 			fmt.Println("Failed to read source directory:", err.Error())
 			os.Exit(1)
@@ -47,7 +47,7 @@ var deleteCommand = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		Info("Reading source directory")
-		filenames, err := utils.ReadDirectory(workingDir, 0)
+		filenames, err := utils.ReadDirectory(workingDir.String(), 0)
 		if err != nil {
 			fmt.Println("Failed to read source directory:", err.Error())
 			os.Exit(1)
@@ -92,7 +92,7 @@ var deleteCommand = &cobra.Command{
 
 		// Delete files
 		for _, filename := range filenames {
-			fileFullPath := filepath.Join(workingDir, filename)
+			fileFullPath := filepath.Join(workingDir.String(), filename)
 			if err := os.Remove(fileFullPath); err != nil {
 				fmt.Printf("Failed to delete %s: %s", filename, err.Error())
 				os.Exit(1)

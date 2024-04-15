@@ -26,7 +26,7 @@ var listCommand = &cobra.Command{
 		considerReject := len(listFlags.rejectExt) > 0
 
 		Info("Reading directory...")
-		filenames, err := utils.ReadDirectory(workingDir, listFlags.count)
+		filenames, err := utils.ReadDirectory(workingDir.String(), listFlags.count)
 		if err != nil {
 			fmt.Println("Failed to read directory")
 			Debug(err.Error())

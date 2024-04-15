@@ -18,13 +18,13 @@ var (
 	home string
 
 	// Flags
-	cfgFile   string
-	cacheFile string
+	cfgFile   utils.FilePathFlag
+	cacheFile utils.FilePathFlag
 	verbose   bool
 	debug     bool
 
 	// Working Directory
-	workingDir string
+	workingDir utils.DirPathFlag
 )
 
 // Root command
@@ -52,14 +52,14 @@ func init() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCommand.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.video-manager)")
+	rootCommand.PersistentFlags().VarP(&cfgFile, "config", "c", "config file (default is $HOME/.video-manager)")
 	if err := rootCommand.MarkPersistentFlagFilename("config"); err != nil {
 		fmt.Println("Failed to mark flag -c as filename in root command")
 		Debug(err.Error())
 		os.Exit(1)
 	}
 
-	rootCommand.PersistentFlags().StringVarP(&cacheFile, "cache", "C", "", "cache file (default is $HOME/.video-manager_history)")
+	rootCommand.PersistentFlags().VarP(&cacheFile, "cache", "C", "cache file (default is $HOME/.video-manager_history)")
 	if err := rootCommand.MarkPersistentFlagFilename("cache"); err != nil {
 		fmt.Println("Failed to mark flag -C as filename in root command")
 		Debug(err.Error())
@@ -77,7 +77,7 @@ func init() {
 	rootCommand.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "Debug output")
 
 	// Working directory
-	rootCommand.PersistentFlags().StringVarP(&workingDir, "dir", "w", "~/Videos", "Working directory (default is ~/Videos)")
+	rootCommand.PersistentFlags().VarP(&workingDir, "dir", "w", "Working directory (default is ~/Videos)")
 	if err := rootCommand.MarkPersistentFlagDirname("dir"); err != nil {
 		fmt.Println("Failed to mark flag -w as dirname in root command")
 		Debug(err.Error())
@@ -99,8 +99,8 @@ func initConfig() {
 
 	if cfgFile != "" {
 		// Reading provided configuration file
-		viper.SetConfigFile(cfgFile)
-		Debug("-c supplied at " + cfgFile)
+		viper.SetConfigFile(cfgFile.String())
+		Debug("-c supplied at " + cfgFile.String())
 	} else {
 		// Reading configuration file from either pwd or $HOME
 		viper.AddConfigPath(".")
