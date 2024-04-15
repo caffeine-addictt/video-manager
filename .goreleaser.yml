@@ -48,15 +48,8 @@ brews:
     repository:
       owner: caffeine-addictt
       name: homebrew-tap
-      branch: main
+      branch: "video-manager"
       token: "{{ .Env.TAP_GITHUB_TOKEN }}"
-      pull_request:
-        enabled: true
-        draft: true
-        base:
-          owner: caffeine-addictt
-          name: homebrew-tap
-          branch: "video-manager"
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
