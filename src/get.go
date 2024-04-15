@@ -250,7 +250,7 @@ var getCommand = &cobra.Command{
 			split := strings.Split(url, "/")
 			fileName := split[len(split)-1]
 
-			if strings.Contains(fileName, ".") {
+			if !strings.Contains(fileName, ".") {
 				Info("Resolving file extension from content type...")
 				contentType := response.Header.Get("Content-Type")
 				extensions, err := mime.ExtensionsByType(contentType)
