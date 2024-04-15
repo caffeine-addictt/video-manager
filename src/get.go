@@ -2,13 +2,15 @@ package src
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io"
+	"mime"
 	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -16,51 +18,29 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Strategy
-type strategyEnum string
-
-const (
-	strategySynchronous strategyEnum = "synchronous"
-	strategyConcurrent  strategyEnum = "concurrent"
-)
-
-func (e *strategyEnum) String() string {
-	return string(*e)
-}
-
-func (e *strategyEnum) Set(value string) error {
-	switch value {
-	case "concurrent", "synchronous":
-		*e = strategyEnum(value)
-		return nil
-	default:
-		return errors.New("must be one of 'synchronous' or 'concurrent'")
-	}
-}
-
-func (e *strategyEnum) Type() string {
-	return "strategy"
-}
+// Non URL similarity
+// The resolved URLs from cache to the similarity score
+type Similarity map[string]int8
 
 // Command stuff
 var getFlags struct {
-	inputFile      string
-	strategy       strategyEnum
-	maxConcurrency int
+	inputFile      utils.FilePathFlag
+	strategy       utils.StrategyEnum
+	maxConcurrency utils.PositiveIntFlag
 }
 
 var getCommand = &cobra.Command{
-	Use:   "get",
+	Use:   "get <url?>...",
 	Short: "Get and download videos",
 	Long:  `Get and download videos from passed file and url(s)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Warn on inefficient settings
-		if getFlags.maxConcurrency == 1 && getFlags.strategy == strategyConcurrent {
+		if getFlags.maxConcurrency == 1 && getFlags.strategy == utils.StrategyConcurrent {
 			fmt.Println("WARNING: Setting -m to 1 with -s concurrent may not be efficient, please consider using -s synchronous instead.")
 		}
 
 		// Validate working directory exists and is writable
-		dirPath, err := utils.ValidateDirectory(workingDir)
+		dirPath, err := utils.ValidateDirectory(workingDir.String())
 		if err != nil {
 			fmt.Printf("Failed to validate working directory: %#v\n", workingDir)
 			Debug(err.Error())
@@ -70,31 +50,27 @@ var getCommand = &cobra.Command{
 		// Turn all URLS to a map to eliminate duplicates
 		// We map string: struct{} for the smallest memory footprint
 		argSet := make(map[string]struct{})
-		for _, arg := range args {
-			argSet[arg] = struct{}{}
-		}
+		nonURLSet := make(map[string]Similarity)
 
-		// Validate explicitly passed URL(s)
-		if len(argSet) > 0 {
-			Debug("Validating passed URL(s)")
-			for rawURL := range argSet {
-				if _, err := url.ParseRequestURI(rawURL); err != nil {
-					fmt.Println("Invalid URL: " + rawURL)
-					os.Exit(1)
-				}
+		for _, arg := range args {
+			if _, err := url.ParseRequestURI(arg); err != nil {
+				Debug("Invalid URL: " + arg)
+				nonURLSet[arg] = make(Similarity, 10)
+				continue
 			}
+			argSet[arg] = struct{}{}
 		}
 
 		// Fetch URLs from file
 		if getFlags.inputFile != "" {
 			Debug("-f was passed, reading url(s) from file")
-			file, err := os.Open(getFlags.inputFile)
+			file, err := os.Open(getFlags.inputFile.String())
 			if err != nil {
 				fmt.Printf("Failed to read file at %s\n", getFlags.inputFile)
 				Debug(err.Error())
 				os.Exit(1)
 			}
-			Debug("Closing file at " + getFlags.inputFile)
+			Debug("Closing file at " + getFlags.inputFile.String())
 			defer file.Close()
 
 			// Read URLs from file, line by line
@@ -109,36 +85,153 @@ var getCommand = &cobra.Command{
 
 				// Validate URL
 				if _, err := url.ParseRequestURI(scanner.Text()); err != nil {
-					fmt.Println("Invalid URL: " + scanner.Text())
-					os.Exit(1)
+					Debug("Invalid URL: " + scanner.Text())
+					nonURLSet[scanner.Text()] = make(Similarity, 10)
+					continue
 				}
 				argSet[scanner.Text()] = struct{}{}
 			}
-			Info("Read " + fmt.Sprint(len(args)-preURLCount) + " url(s) from " + getFlags.inputFile)
+			Info("Read " + fmt.Sprint(len(args)-preURLCount) + " url(s) from " + getFlags.inputFile.String())
+		}
+		Debug("Valid URL(s): " + fmt.Sprint(argSet))
+		Debug("Non URL(s): " + fmt.Sprint(nonURLSet))
+
+		// Open cache file
+		Debug("Opening cache file at " + cacheFile.String())
+		file, err := os.OpenFile(cacheFile.String(), os.O_RDWR|os.O_APPEND, 0o600)
+		if err != nil {
+			fmt.Println("Failed to open cache file at " + cacheFile)
+			Debug(err.Error())
+			return
+		}
+		defer file.Close()
+
+		// Provide completions from cache file
+		if len(nonURLSet) > 0 {
+			Info("Reading cache file to complete URL(s)...")
+			scanner := bufio.NewScanner(file)
+			for scanner.Scan() {
+				// Skip if url already in argSet
+				if _, ok := argSet[scanner.Text()]; ok {
+					continue
+				}
+
+				// Skip if not a valid url
+				if _, err := url.ParseRequestURI(scanner.Text()); err != nil {
+					continue
+				}
+
+				for nonURL, curr := range nonURLSet {
+					stripProtocol := regexp.MustCompile(`^(https?://)?(www\.)?`)
+					similar := int8(utils.SimilarityScore(nonURL, stripProtocol.ReplaceAllString(scanner.Text(), "")))
+					if similar == 0 {
+						continue
+					}
+
+					// Add if lesser than 10
+					if len(curr) < 10 {
+						nonURLSet[nonURL][scanner.Text()] = similar
+						continue
+					}
+
+					// Add if current has higher score
+					lowestKey := ""
+					for i, comp := range curr {
+						if comp < similar {
+							if lowestKey == "" || comp < curr[lowestKey] {
+								lowestKey = i
+							}
+						}
+					}
+
+					if lowestKey != "" {
+						nonURLSet[nonURL][lowestKey] = similar
+					}
+				}
+			}
+
+			Debug("Similar urls found in cache: " + fmt.Sprint(nonURLSet))
+
+			// Prompt for proper url
+			Info("Prompting user for proper URL...")
+			for prev, comp := range nonURLSet {
+				if len(comp) == 0 {
+					fmt.Printf("No similar URLs found in cache for %s\n", prev)
+					os.Exit(1)
+				}
+
+				ask := make([]string, 0, 10)
+				mapping := map[int]string{}
+				i := 0
+				for key, score := range comp {
+					ask = append(ask, fmt.Sprintf("%d. %s (%d%% match)", i, key, score))
+					mapping[i] = key
+					i++
+				}
+
+				var index int8
+				response := utils.InputPrompt(utils.Multiline(append(ask, "", "Passed: "+prev, "Which url do you want to use? (Default: 0)")...))
+				if response == "" {
+					index = 0
+				} else {
+					i, err := strconv.ParseInt(response, 10, 8)
+					if err != nil {
+						fmt.Printf("%s is not a valid number\n", response)
+						Debug(err.Error())
+						os.Exit(1)
+					}
+					index = int8(i)
+				}
+
+				if index < 0 || index > int8(len(comp)) {
+					fmt.Printf("%d is not a valid index\n", i)
+					Debug(err.Error())
+					os.Exit(1)
+				}
+
+				Info("Using url: " + mapping[int(index)])
+				argSet[mapping[int(index)]] = struct{}{}
+			}
 		}
 
 		// Ensure a URL was passed
+		Debug("Final URL(s): " + fmt.Sprint(argSet))
 		if len(argSet) == 0 {
 			fmt.Println("No URL(s) were passed! See -h|--help for usage.")
 			os.Exit(1)
 		}
 
-		downloadFile := func(url string) {
-			split := strings.Split(url, "/")
-			downloadLocation := filepath.Clean(filepath.Join(dirPath, split[len(split)-1]))
+		// Caching URLS
+		var waitGroup sync.WaitGroup
+		waitGroup.Add(1)
 
-			// Ensure file already does not exist
-			Info("Checking if " + downloadLocation + " already exists")
-			if _, err := os.Stat(downloadLocation); err == nil {
-				fmt.Printf("File already exists for %s\n", downloadLocation)
-				Debug("File: " + downloadLocation + " already exists for " + url)
+		go func() {
+			defer waitGroup.Done()
+			fmt.Println("Writing URLs to cache file...")
+
+			// Buffer writer
+			buffer := bufio.NewWriter(file)
+			for downloadURL := range argSet {
+				if _, err := buffer.WriteString(downloadURL + "\n"); err != nil {
+					fmt.Println("Failed to write to cache file at " + cacheFile)
+					Debug(err.Error())
+					return
+				}
+			}
+
+			// Write to file
+			if err := buffer.Flush(); err != nil {
+				fmt.Println("Failed to write cache file at " + cacheFile)
+				Debug(err.Error())
 				return
 			}
 
-			// Get File
-			fmt.Printf("Downloading %s to %s\n", url, downloadLocation)
-			Info("Getting url: " + url)
+			fmt.Println("Wrote " + fmt.Sprint(len(argSet)) + " url(s) to cache file")
+		}()
 
+		downloadFile := func(url string) {
+			// Get file
+			Info("Getting url: " + url)
 			request, err := http.NewRequest(http.MethodGet, url, http.NoBody)
 			if err != nil {
 				fmt.Println("Failed to create request: " + url)
@@ -153,6 +246,33 @@ var getCommand = &cobra.Command{
 				return
 			}
 			defer response.Body.Close()
+
+			split := strings.Split(url, "/")
+			fileName := split[len(split)-1]
+
+			if !strings.Contains(fileName, ".") {
+				Info("Resolving file extension from content type...")
+				contentType := response.Header.Get("Content-Type")
+				extensions, err := mime.ExtensionsByType(contentType)
+				if err != nil || len(extensions) == 0 {
+					fmt.Println("Failed to resolve extension automatically for content type: " + contentType)
+					if err != nil {
+						Debug(err.Error())
+					}
+					return
+				}
+
+				fileName += extensions[0]
+			}
+			downloadLocation := filepath.Clean(filepath.Join(dirPath, fileName))
+
+			// Ensure file already does not exist
+			Info("Checking if " + downloadLocation + " already exists")
+			if _, err := os.Stat(downloadLocation); err == nil {
+				fmt.Printf("File already exists for %s\n", downloadLocation)
+				Debug("File: " + downloadLocation + " already exists for " + url)
+				return
+			}
 
 			// Create file
 			Info("Creating file at: " + downloadLocation)
@@ -177,12 +297,10 @@ var getCommand = &cobra.Command{
 
 		// Handle downloading
 		switch getFlags.strategy {
-		case strategyConcurrent:
-			var waitGroup sync.WaitGroup
-
+		case utils.StrategyConcurrent:
 			// Concurrency with no limit
 			if getFlags.maxConcurrency == 0 {
-				fmt.Println("Downloading concurrently... [No limit]")
+				fmt.Printf("Downloading concurrently... [Use: %d, Max: No limit]\n", len(argSet))
 				waitGroup.Add(len(argSet))
 
 				for url := range argSet {
@@ -194,12 +312,13 @@ var getCommand = &cobra.Command{
 
 				// Concurrency with limit
 			} else {
-				fmt.Printf("Downloading concurrently... [Max: %d]\n", getFlags.maxConcurrency)
-				waitGroup.Add(int(getFlags.maxConcurrency))
+				resolvedConcurrency := min(len(argSet), getFlags.maxConcurrency.Int())
+				fmt.Printf("Downloading concurrently... [Use: %d, Max: %d]\n", resolvedConcurrency, getFlags.maxConcurrency)
 
 				// Establish channel and workers
+				waitGroup.Add(resolvedConcurrency)
 				ch := make(chan string)
-				for t := 0; t < int(getFlags.maxConcurrency); t++ {
+				for t := 0; t < resolvedConcurrency; t++ {
 					go func() {
 						for url := range ch {
 							downloadFile(url)
@@ -215,33 +334,35 @@ var getCommand = &cobra.Command{
 
 				close(ch)
 			}
-
-			waitGroup.Wait()
-		case strategySynchronous:
+		case utils.StrategySynchronous:
 			fmt.Println("Downloading synchronously...")
 
 			for url := range argSet {
 				downloadFile(url)
 			}
 		}
+
+		waitGroup.Wait()
 	},
 }
 
 func init() {
-	getFlags.strategy = strategyConcurrent
+	getFlags.maxConcurrency = 10
+	getFlags.strategy = utils.StrategyConcurrent
 
 	rootCommand.AddCommand(getCommand)
-	getCommand.Flags().StringVarP(&getFlags.inputFile, "file", "f", "", "Path to the input file containing the url(s)")
-	getCommand.Flags().IntVarP(&getFlags.maxConcurrency, "max-concurrency", "m", 10, "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")
-	getCommand.Flags().VarP(&getFlags.strategy, "strategy", "s", "Strategy to use when downloading (default is concurrent)")
-	if err := getCommand.RegisterFlagCompletionFunc("strategy", strategyCompletion); err != nil {
-		fmt.Println("Failed to register completion for flag -s in get command")
+	getCommand.Flags().VarP(&getFlags.maxConcurrency, "max-concurrency", "m", "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")
+
+	getCommand.Flags().VarP(&getFlags.inputFile, "file", "f", "Path to the input file containing the url(s)")
+	if err := getCommand.MarkFlagFilename("file"); err != nil {
+		fmt.Println("Failed to mark flag -f as filename in get command")
 		Debug(err.Error())
 		os.Exit(1)
 	}
 
-	if err := getCommand.MarkFlagFilename("file"); err != nil {
-		fmt.Println("Failed to mark flag -f as filename in get command")
+	getCommand.Flags().VarP(&getFlags.strategy, "strategy", "s", "Strategy to use when downloading (default is concurrent)")
+	if err := getCommand.RegisterFlagCompletionFunc("strategy", strategyCompletion); err != nil {
+		fmt.Println("Failed to register completion for flag -s in get command")
 		Debug(err.Error())
 		os.Exit(1)
 	}

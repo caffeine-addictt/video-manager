@@ -14,7 +14,7 @@ var listFlags struct {
 	query     string
 	allowExt  []string
 	rejectExt []string
-	count     int
+	count     utils.PositiveIntFlag
 }
 
 var listCommand = &cobra.Command{
@@ -26,7 +26,7 @@ var listCommand = &cobra.Command{
 		considerReject := len(listFlags.rejectExt) > 0
 
 		Info("Reading directory...")
-		filenames, err := utils.ReadDirectory(workingDir, listFlags.count)
+		filenames, err := utils.ReadDirectory(workingDir.String(), listFlags.count.Int())
 		if err != nil {
 			fmt.Println("Failed to read directory")
 			Debug(err.Error())
@@ -78,8 +78,10 @@ var listCommand = &cobra.Command{
 }
 
 func init() {
+	listFlags.count = 0
+
 	rootCommand.AddCommand(listCommand)
-	listCommand.Flags().IntVarP(&listFlags.count, "count", "n", 0, "Number of videos to list [0 = all] (defaults to 0)")
+	listCommand.Flags().VarP(&listFlags.count, "count", "n", "Number of videos to list [0 = all] (defaults to 0)")
 	listCommand.Flags().StringVarP(&listFlags.query, "query", "q", "", "Query string to filter results (defaults to '')")
 	listCommand.Flags().StringSliceVarP(&listFlags.allowExt, "allow", "a", []string{}, "The extensions of the videos to list [mp4 etc.] (defaults to [])")
 	listCommand.Flags().StringSliceVarP(&listFlags.rejectExt, "exclude", "e", []string{}, "The extensions of the videos to list exclude [mp4 etc] (defaults to [])")

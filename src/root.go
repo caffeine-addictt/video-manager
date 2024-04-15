@@ -14,12 +14,17 @@ import (
 
 // Global variables
 var (
-	cfgFile string
-	verbose bool
-	debug   bool
+	// Global
+	home string
+
+	// Flags
+	cfgFile   utils.FilePathFlag
+	cacheFile utils.FilePathFlag
+	verbose   bool
+	debug     bool
 
 	// Working Directory
-	workingDir string
+	workingDir utils.DirPathFlag
 )
 
 // Root command
@@ -32,43 +37,75 @@ var rootCommand = &cobra.Command{
 	),
 }
 
-// Configuration
 func init() {
-	cobra.OnInitialize(initConfig)
-	rootCommand.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.video-manager)")
-
-	// Verbosity
-	rootCommand.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Verbose output")
-	rootCommand.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "Debug output")
-
-	// Working directory
-	rootCommand.PersistentFlags().StringVarP(&workingDir, "dir", "w", "~/Videos", "Working directory (default is ~/Videos)")
-	if err := viper.BindPFlag("dir", rootCommand.PersistentFlags().Lookup("dir")); err != nil {
-		fmt.Println("Failed to bind persistent flag 'dir'")
-		Debug(err.Error())
-		os.Exit(1)
-	}
-	viper.SetDefault("dir", "~/Videos")
-}
-
-func initConfig() {
-	home, err := homedir.Dir()
+	home_, err := homedir.Dir()
 	if err != nil {
 		fmt.Println("Failed to get home directory")
 		Debug(err.Error())
 		os.Exit(1)
 	}
 
+	home = home_
+}
+
+// Configuration
+func init() {
+	cobra.OnInitialize(initConfig)
+
+	rootCommand.PersistentFlags().VarP(&cfgFile, "config", "c", "config file (default is $HOME/.video-manager)")
+	if err := rootCommand.MarkPersistentFlagFilename("config"); err != nil {
+		fmt.Println("Failed to mark flag -c as filename in root command")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+
+	rootCommand.PersistentFlags().VarP(&cacheFile, "cache", "C", "cache file (default is $HOME/.video-manager_history)")
+	if err := rootCommand.MarkPersistentFlagFilename("cache"); err != nil {
+		fmt.Println("Failed to mark flag -C as filename in root command")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+	viper.SetDefault("cache", filepath.Clean(filepath.Join(home, ".video-manager_history")))
+	if err := viper.BindPFlag("cache", rootCommand.PersistentFlags().Lookup("cache")); err != nil {
+		fmt.Println("Failed to bind persistent flag 'cache'")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+
+	// Verbosity
+	rootCommand.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Verbose output")
+	rootCommand.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "Debug output")
+
+	// Working directory
+	rootCommand.PersistentFlags().VarP(&workingDir, "dir", "w", "Working directory (default is ~/Videos)")
+	if err := rootCommand.MarkPersistentFlagDirname("dir"); err != nil {
+		fmt.Println("Failed to mark flag -w as dirname in root command")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+	viper.SetDefault("dir", "~/Videos")
+	if err := viper.BindPFlag("dir", rootCommand.PersistentFlags().Lookup("dir")); err != nil {
+		fmt.Println("Failed to bind persistent flag 'dir'")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+
+	// Initialize subcommands
+	initCache()
+}
+
+func initConfig() {
+	viper.SetConfigType("yaml")
+
 	if cfgFile != "" {
 		// Reading provided configuration file
-		viper.SetConfigFile(cfgFile)
-		Debug("-c supplied at " + cfgFile)
+		viper.SetConfigFile(cfgFile.String())
+		Debug("-c supplied at " + cfgFile.String())
 	} else {
 		// Reading configuration file from either pwd or $HOME
 		viper.AddConfigPath(".")
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".video-manager")
-		viper.SetConfigType("yaml")
 		Debug("-c not supplied, looking for configuration file in " + home + " or pwd")
 	}
 
@@ -106,7 +143,19 @@ func initConfig() {
 		}
 	})
 
-	Info("Loaded configuration from " + viper.ConfigFileUsed())
+	Debug("Loaded configuration from " + viper.ConfigFileUsed())
+
+	// Making caching file `$HOME/.video-manager_history`
+	Debug("Writing cache file if it does not exist at " + home + "/.video-manager_history")
+	file, err := os.OpenFile(filepath.Clean(filepath.Join(home, ".video-manager_history")), os.O_RDWR|os.O_CREATE, 0o600)
+	if err != nil {
+		fmt.Println("Failed to write cache file at " + home + "/.video-manager_history")
+		Debug(err.Error())
+		os.Exit(1)
+	}
+	defer file.Close()
+
+	Debug("Ensured cache file exists at " + home + "/.video-manager_history")
 }
 
 func Execute() {
