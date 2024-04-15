@@ -89,6 +89,9 @@ func init() {
 		Debug(err.Error())
 		os.Exit(1)
 	}
+
+	// Initialize subcommands
+	initCache()
 }
 
 func initConfig() {
