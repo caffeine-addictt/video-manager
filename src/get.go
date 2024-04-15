@@ -2,7 +2,6 @@ package src
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io"
 	"mime"
@@ -19,32 +18,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Strategy
-type strategyEnum string
-
-const (
-	strategySynchronous strategyEnum = "synchronous"
-	strategyConcurrent  strategyEnum = "concurrent"
-)
-
-func (e *strategyEnum) String() string {
-	return string(*e)
-}
-
-func (e *strategyEnum) Set(value string) error {
-	switch value {
-	case "concurrent", "synchronous":
-		*e = strategyEnum(value)
-		return nil
-	default:
-		return errors.New("must be one of 'synchronous' or 'concurrent'")
-	}
-}
-
-func (e *strategyEnum) Type() string {
-	return "<concurrent|synchronous>"
-}
-
 // Non URL similarity
 // The resolved URLs from cache to the similarity score
 type Similarity map[string]int8
@@ -52,7 +25,7 @@ type Similarity map[string]int8
 // Command stuff
 var getFlags struct {
 	inputFile      string
-	strategy       strategyEnum
+	strategy       utils.StrategyEnum
 	maxConcurrency int
 }
 
@@ -62,7 +35,7 @@ var getCommand = &cobra.Command{
 	Long:  `Get and download videos from passed file and url(s)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Warn on inefficient settings
-		if getFlags.maxConcurrency == 1 && getFlags.strategy == strategyConcurrent {
+		if getFlags.maxConcurrency == 1 && getFlags.strategy == utils.StrategyConcurrent {
 			fmt.Println("WARNING: Setting -m to 1 with -s concurrent may not be efficient, please consider using -s synchronous instead.")
 		}
 
@@ -324,7 +297,7 @@ var getCommand = &cobra.Command{
 
 		// Handle downloading
 		switch getFlags.strategy {
-		case strategyConcurrent:
+		case utils.StrategyConcurrent:
 			// Concurrency with no limit
 			if getFlags.maxConcurrency == 0 {
 				fmt.Printf("Downloading concurrently... [Use: %d, Max: No limit]", len(argSet))
@@ -361,7 +334,7 @@ var getCommand = &cobra.Command{
 
 				close(ch)
 			}
-		case strategySynchronous:
+		case utils.StrategySynchronous:
 			fmt.Println("Downloading synchronously...")
 
 			for url := range argSet {
@@ -374,7 +347,7 @@ var getCommand = &cobra.Command{
 }
 
 func init() {
-	getFlags.strategy = strategyConcurrent
+	getFlags.strategy = utils.StrategyConcurrent
 
 	rootCommand.AddCommand(getCommand)
 	getCommand.Flags().IntVarP(&getFlags.maxConcurrency, "max-concurrency", "m", 10, "Maximum number of concurrent downloads [0 = unlimited] (default is 10)")

@@ -5,8 +5,37 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/pkg/errors"
 )
 
+// Strategy Enum
+type StrategyEnum string
+
+const (
+	StrategySynchronous StrategyEnum = "synchronous"
+	StrategyConcurrent  StrategyEnum = "concurrent"
+)
+
+func (e *StrategyEnum) String() string {
+	return string(*e)
+}
+
+func (e *StrategyEnum) Set(value string) error {
+	switch value {
+	case "concurrent", "synchronous":
+		*e = StrategyEnum(value)
+		return nil
+	default:
+		return errors.New("must be one of 'synchronous' or 'concurrent'")
+	}
+}
+
+func (e *StrategyEnum) Type() string {
+	return "<concurrent|synchronous>"
+}
+
+// Functions
 func Multiline(line ...string) string {
 	return strings.Join(line, "\n")
 }
