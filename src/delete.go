@@ -16,7 +16,7 @@ var deleteFlags struct {
 }
 
 var deleteCommand = &cobra.Command{
-	Use:     "delete [pattern]",
+	Use:     "delete <pattern>",
 	Aliases: []string{"del", "rm"},
 	Short:   "Delete videos from the source directory",
 	Args:    cobra.ExactArgs(1),

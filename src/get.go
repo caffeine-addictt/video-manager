@@ -42,7 +42,7 @@ func (e *strategyEnum) Set(value string) error {
 }
 
 func (e *strategyEnum) Type() string {
-	return "strategy"
+	return "<concurrent|synchronous>"
 }
 
 // Non URL similarity
@@ -57,7 +57,7 @@ var getFlags struct {
 }
 
 var getCommand = &cobra.Command{
-	Use:   "get",
+	Use:   "get <url?>...",
 	Short: "Get and download videos",
 	Long:  `Get and download videos from passed file and url(s)`,
 	Run: func(cmd *cobra.Command, args []string) {

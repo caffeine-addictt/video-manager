@@ -36,7 +36,7 @@ For example, if the URL is `https://video-site.com/video.mp4`, the filename will
 
 ## Options
 
-### -f, --file
+### -f, --file <path>
 
 You can pass a file containing a list of URLs to download.
 
@@ -60,7 +60,7 @@ https://my.other/video.mp4
 video-manager get -f urls.txt
 ```
 
-### -s, --strategy [synchronous|concurrent]
+### -s, --strategy <synchronous|concurrent>
 
 You can specify the download strategy. It is `concurrent` by default.
 
@@ -71,7 +71,7 @@ You can specify the download strategy. It is `concurrent` by default.
 video-manager get -s synchronous https://video-site.com/video.mp4 https://my.other/video.mp4
 ```
 
-### -m, --max-concurrency [0 = unlimited]
+### -m, --max-concurrency [0 = unlimited] <integer>
 
 You can specify the maximum number of concurrent downloads. It is `10` by default, and is unlimited if set to `0`.
 

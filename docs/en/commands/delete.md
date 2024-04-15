@@ -18,7 +18,7 @@ This command deletes files from the configured directory.
 
 ```sh
 # Specific file
-video-manager delete [filename]
+video-manager delete <filename>
 
 # RegExp (delete all mp4)
 video-manager delete -r '[a-z]+\.mp4'

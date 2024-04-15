@@ -6,7 +6,7 @@ Here is the full list of commands and persistent options that Video Manager supp
 
 ## Persistent options
 
-### -w, --dir [path]
+### -w, --dir <path>
 
 Uses the specified working directory. By default, it is `~/Videos`.
 
@@ -22,7 +22,7 @@ Prints verbose output
 
 Prints debug output
 
-### -c, --config [path]
+### -c, --config <path>
 
 Uses the specified config file.
 
