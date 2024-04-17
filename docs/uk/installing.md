@@ -1,56 +1,56 @@
 <!-- markdownlint-disable MD033 -->
 
-# Installing
+# Встановлення
 
-This guide will help you install the project.
+Ця інструкція допоможе вам встановити та налаштувати програмне забезпечення для роботи з проектом.
 
-## Table of Contents
+## Зміст
 
 <!--toc:start-->
-- [Installing](#installing)
-  - [Table of Contents](#table-of-contents)
-  - [Natively with Go](#natively-with-go)
-  - [With Homebrew](#with-homebrew)
-  - [All Operating Systems](#all-operating-systems)
-    - [GNU/Linux or MacOS](#gnulinux-or-macos)
+- [Встановлення](#встановлення)
+  - [Зміст](#зміст)
+  - [Нативно з Go](#нативно-з-go)
+  - [За допомогою Homebrew](#за-допомогою-homebrew)
+  - [Для всіх операційних систем](#для-всіх-операційних-систем)
+    - [GNU/Linux або MacOS](#gnulinux-або-macos)
     - [WindowsOS](#windowsos)
 <!--toc:end-->
 
-## Natively with Go
+## Нативно з Go
 
 ```sh
-# Installs the binary to $GOPATH/bin
+# Встановлює бінарний файл в $GOPATH/bin
 go install github.com/caffeine-addictt/video-manager@latest
 
-# Add to path
+# Додати до PATH
 echo "alias video-manager=$(go env | grep GOPATH)/bin/video-manager" >> ~/.bashrc
 
-# Resource
+# Перезавантажити ресурси
 source ~/.bashrc
 ```
 
-## With Homebrew
+## За допомогою Homebrew
 
 ```sh
 brew tap caffeine-addictt/tap
 bew install caffeine-addictt/tap/video-manager
 ```
 
-## All Operating Systems
+## Для всіх операційних систем
 
-Download the valid tarballs for your OS in our [releases](https://github.com/caffeine-addictt/video-manager/releases).
+Завантажте відповідні tarballs для вашої ОС на нашій [сторінці релізів](https://github.com/caffeine-addictt/video-manager/releases).
 
-### GNU/Linux or MacOS
+### GNU/Linux або MacOS
 
 ```sh
-tar -xf video-manager_* video-manager && mv video-manager /usr/local/bin/video-manager
+tar video-manager_* video-manager && mv video-manager /usr/local/bin/video-manager
 ```
 
 ### WindowsOS
 
 ```sh
-# Unzip tarball
+# Розпакувати tarball
 unzip video-manager_*.zip -d video-manager && setx path "%path%;%cd%\video-manager\"
 ```
 
-See [getting started](./getting-started.md) next.
+Далі перейдіть до [початку роботи](./getting-started.md).
