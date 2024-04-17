@@ -1,43 +1,43 @@
 <!-- markdownlint-disable MD033 -->
 
-# Command Documentation
+# Команди
 
-Here is the full list of commands and persistent options that Video Manager supports.
+Тут наведений повний список команд та постійних опцій, які підтримує Video Manager.
 
-## Persistent options
+## Постійні опції
 
-### -w, --dir <path>
+### -w, --dir <шлях>
 
-Uses the specified working directory. By default, it is `~/Videos`.
+Використовує вказаний робочий каталог. За замовчуванням це `~/Videos`.
 
 ### -h, --help
 
-Prints the help message
+Виводить довідкове повідомлення
 
 ### -v, --verbose
 
-Prints verbose output
+Виводить розширений вивід
 
 ### -d, --debug
 
-Prints debug output
+Виводить відладочний вивід
 
-### -c, --config <path>
+### -c, --config <шлях>
 
-Uses the specified config file.
+Використовує вказаний файл конфігурації.
 
-If not specified, the `.video-manager` file is looked for in this order:
+Якщо не вказано, файл `.video-manager` шукається в такому порядку:
 
-- The current working directory (`./.video-manager`)
-- The user's home directory (`~/.video-manager`)
+- Поточний робочий каталог (`./.video-manager`)
+- Домашній каталог користувача (`~/.video-manager`)
 
-### -C, --cache <path>
+### -C, --cache <шлях>
 
-Uses the specified cache file.
+Використовує вказаний файл кешу.
 
-If not specified, the `~/.video-manager_history` file is used, or otherwise defined in the [configuration file](../configuration.md).
+Якщо не вказано, використовується файл `~/.video-manager_history`, або визначено в [файлі конфігурації](./configuration.md).
 
-## Commands
+## Команди
 
 - [cache clear|list|remove](./cache.md)
 - [delete](./delete.md)
