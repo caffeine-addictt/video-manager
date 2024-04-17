@@ -1,46 +1,46 @@
 <!-- markdownlint-disable MD033 -->
 
-# Installing
+# Installieren
 
-This guide will help you install the project.
+Diese Anleitung hilft Ihnen bei der Installation des Projekts.
 
-## Table of Contents
+## Inhaltsverzeichnis
 
 <!--toc:start-->
-- [Installing](#installing)
-  - [Table of Contents](#table-of-contents)
-  - [Natively with Go](#natively-with-go)
-  - [With Homebrew](#with-homebrew)
-  - [All Operating Systems](#all-operating-systems)
-    - [GNU/Linux or MacOS](#gnulinux-or-macos)
+- [Installieren](#installieren)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Nativer Weg mit Go](#nativer-weg-mit-go)
+  - [Mit Homebrew](#mit-homebrew)
+  - [Alle Betriebssysteme](#alle-betriebssysteme)
+    - [GNU/Linux oder MacOS](#gnulinux-oder-macos)
     - [WindowsOS](#windowsos)
 <!--toc:end-->
 
-## Natively with Go
+## Nativer Weg mit Go
 
 ```sh
-# Installs the binary to $GOPATH/bin
+# Installiert das Binärpaket nach $GOPATH/bin
 go install github.com/caffeine-addictt/video-manager@latest
 
-# Add to path
+# Zum Pfad hinzufügen
 echo "alias video-manager=$(go env | grep GOPATH)/bin/video-manager" >> ~/.bashrc
 
-# Resource
+# Quelle
 source ~/.bashrc
 ```
 
-## With Homebrew
+## Mit Homebrew
 
 ```sh
 brew tap caffeine-addictt/tap
-bew install caffeine-addictt/tap/video-manager
+brew install caffeine-addictt/tap/video-manager
 ```
 
-## All Operating Systems
+## Alle Betriebssysteme
 
-Download the valid tarballs for your OS in our [releases](https://github.com/caffeine-addictt/video-manager/releases).
+Laden Sie die gültigen Tarballs für Ihr Betriebssystem in unseren [Veröffentlichungen](https://github.com/caffeine-addictt/video-manager/releases) herunter.
 
-### GNU/Linux or MacOS
+### GNU/Linux oder MacOS
 
 ```sh
 tar -xf video-manager_* video-manager && mv video-manager /usr/local/bin/video-manager
@@ -49,8 +49,8 @@ tar -xf video-manager_* video-manager && mv video-manager /usr/local/bin/video-m
 ### WindowsOS
 
 ```sh
-# Unzip tarball
+# Entpacken des Tarballs
 unzip video-manager_*.zip -d video-manager && setx path "%path%;%cd%\video-manager\"
 ```
 
-See [getting started](./getting-started.md) next.
+Siehe [Erste Schritte](./getting-started.md) als Nächstes.
