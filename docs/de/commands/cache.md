@@ -40,7 +40,7 @@ video-manager cache ls myVideoTitle
 
 Entfernt alle Cache-Einträge, die mit dem angegebenen Muster übereinstimmen.
 
-> [!HINWEIS]
+> [!NOTE]
 > Das Protokoll (`https://`, `http://`, `www.`) wird vor dem Abgleichen nicht entfernt.
 
 Muster werden in dieser Reihenfolge abgeglichen:
