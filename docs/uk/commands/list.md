@@ -1,53 +1,53 @@
 <!-- markdownlint-disable MD013 -->
 
-# The list command
+# Команда list
 
-This command lists all videos in your configured download location.
+Ця команда виводить список всіх відеофайлів у вашому налаштованому місці завантаження.
 
-## Table of contents
+## Зміст
 
 <!--toc:start-->
-- [Table of contents](#table-of-contents)
-- [Basic usage](#basic-usage)
-- [Options](#options)
-  - [-q, --query (defaults to "")](#q-query-defaults-to)
-  - [-n, --count [0 = unlimited]](#n-count-0-unlimited)
-  - [-a, --allow (defaults to [])](#a-allow-defaults-to)
-  - [-e, --exclude (defaults to [])](#e-exclude-defaults-to)
-  - [Inherited](#inherited)
-- [See also](#see-also)
+- [Таблиця змісту](#таблиця-змісту)
+- [Базове використання](#базове-використання)
+- [Опції](#опції)
+  - [-q, --query (за замовчуванням "")](#q-query-за-замовчуванням)
+  - [-n, --count [0 = необмежено]](#n-count-0--необмежено)
+  - [-a, --allow (за замовчуванням [])](#a-allow-за-замовчуванням)
+  - [-e, --exclude (за замовчуванням [])](#e-exclude-за-замовчуванням)
+  - [Успадковані](#успадковані)
+- [Дивись також](#дивись-також)
 <!--toc:end-->
 
-## Basic usage
+## Базове використання
 
 ```sh
 video-manager list
 ```
 
-## Options
+## Опції
 
-### -q, --query (defaults to "")
+### -q, --query (за замовчуванням "")
 
-Query to search for videos.
+Запит для пошуку відеофайлів.
 
 > [!NOTE]
-> RegExp is supported.
+> Підтримується RegExp.
 
 ```sh
-video-manager list -q "query" # Will check if "query" is in the filename
-video-manager list -q ".*"    # Will match every character
-video-manager list -q "*"     # Will check if "*" is in the filename
+video-manager list -q "запит" # Перевірить, чи "запит" є в імені файлу
+video-manager list -q ".*"    # Підходить до кожного символу
+video-manager list -q "*"     # Перевірить, чи "*" є в імені файлу
 ```
 
-### -n, --count [0 = unlimited]
+### -n, --count [0 = необмежено]
 
-You can specify the maximum number of videos to list. It is `00` by default, and is unlimited if set to `0`.
+Ви можете вказати максимальну кількість відео для виведення. За замовчуванням це `00`, і воно необмежене, якщо встановлено на `0`.
 
-### -a, --allow (defaults to [])
+### -a, --allow (за замовчуванням [])
 
-You can specify the list of allowed extensions, omitting the `.`, and is `[]` by default.
+Ви можете вказати список дозволених розширень, пропускаючи `.`. За замовчуванням це `[]`.
 
-The following is valid:
+Наступне є дійсним:
 
 ```sh
 video-manager list -a mp4,mkv
@@ -55,13 +55,13 @@ video-manager list -a mp4 -a mkv
 ```
 
 > [!NOTE]
-> This cannot be used with `--exclude`.
+> Це не можна використовувати з `--exclude`.
 
-### -e, --exclude (defaults to [])
+### -e, --exclude (за замовчуванням [])
 
-You can specify the list of disallowed extensions, omitting the `.`, and is `[]` by default.
+Ви можете вказати список заборонених розширень, пропускаючи `.`. За замовчуванням це `[]`.
 
-The following is valid:
+Наступне є дійсним:
 
 ```sh
 video-manager list -e mp4,mkv
@@ -69,12 +69,8 @@ video-manager list -e mp4 -e mkv
 ```
 
 > [!NOTE]
-> This cannot be used with `--allow`.
+> Це не можна використовувати з `--allow`.
 
-### Inherited
+### Успадковані
 
-See [persistent options](./index.md#persistent-options) for all the supported inherited options.
-
-## See also
-
-Full list of [commands](./index.md).
+Дивись [тут](./index.md#постійні-опції).
