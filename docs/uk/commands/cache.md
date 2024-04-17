@@ -1,35 +1,36 @@
 <!-- markdownlint-disable MD013 -->
 
-# Cache commands
+# Команди cache
 
-The following commands are used to manage caches.
+Ці команди використовуються для управління кешем.
 
-## Table of Contents
+## Зміст
 
 <!--toc:start-->
-- [Cache commands](#cache-commands)
-  - [Table of Contents](#table-of-contents)
-  - [Commands](#commands)
-    - [list|ls <pattern?>](#listls-pattern)
+- [Команди cache](#команда-cache)
+  - [Зміст](#зміст)
+  - [Команди](#команди)
+    - [list|ls <pattern>](#listls-pattern)
     - [remove|rm <pattern>](#removerm-pattern)
     - [clear|clr|wipe](#clearclrwipe)
-  - [Options](#options)
-  - [See also](#see-also)
+  - [Опції](#опції)
+  - [Дивись також](#дивись-також)
 <!--toc:end-->
 
-## Commands
+## Команди
 
-### list|ls <pattern?>
+### list|ls <pattern>
 
-List all cache entries or those matching the given pattern.
+Виводить всі записи кешу або ті, які відповідають вказаному шаблону.
 
-Each cache entry is stripped of its protocol (`https://`, `http://`, `www.`) before matching.
-For example, `https://video-site.com` will be stripped to `video-site.com` and `http://www.other-site.com` will be stripped to `other-site.com`.
+Кожен запис кешу позбавляється свого протоколу (`https://`, `http://`, `www.`) перед порівнянням.
 
-Patterns are matched in this order:
+Наприклад, `https://video-site.com` буде позбавлено до `video-site.com`, а `http://www.other-site.com` буде позбавлено до `other-site.com`.
 
-- Check if line starts with the pattern
-- RegExp match against the line
+Шаблони порівнюються в такому порядку:
+
+- Перевірка, чи рядок починається з шаблону
+- Порівняння RegExp з рядком
 
 ```sh
 video-manager cache list
@@ -38,15 +39,15 @@ video-manager cache ls myVideoTitle
 
 ### remove|rm <pattern>
 
-Remove all cache entries matching the given pattern.
+Видаляє всі записи кешу, які відповідають вказаному шаблону.
 
 > [!NOTE]
-> The protocol (`https://`, `http://`, `www.`) is not removed before matching.
+> Протокол (`https://`, `http://`, `www.`) не видаляється перед порівнянням.
 
-Patterns are matched in this order:
+Шаблони порівнюються в такому порядку:
 
-- Check if line starts with the pattern
-- RegExp match against the line
+- Перевірка, чи рядок починається з шаблону
+- Порівняння RegExp з рядком
 
 ```sh
 video-manager cache remove https
@@ -54,16 +55,16 @@ video-manager cache remove https
 
 ### clear|clr|wipe
 
-Clear the entire cache.
+Очищає весь кеш.
 
 ```sh
 video-manager cache clear
 ```
 
-## Options
+## Опції
 
-Only [persistent options](./index,md/persistent-options) are supported.
+Тільки [постійні опції](./index.md#постійні-опції) доступні для всіх команд.
 
-## See also
+## Дивись також
 
-- [get command](./get.md)
+- [Команда get](./get.md)
