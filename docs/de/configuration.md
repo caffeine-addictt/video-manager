@@ -1,36 +1,36 @@
 <!-- markdownlint-disable MD033 MD013 -->
 
-# Configuration
+# Konfiguration
 
-## Table of Contents
+## Inhaltsverzeichnis
 
 <!--toc:start-->
-* [Table of Contents](#table-of-contents)
-* [Overview](#overview)
-* [Default configuration](#default-configuration)
-* [See Also](#see-also)
+* [Inhaltsverzeichnis](#inhaltsverzeichnis)
+* [Übersicht](#übersicht)
+* [Standardkonfiguration](#standardkonfiguration)
+* [Siehe auch](#siehe-auch)
 <!--toc:end-->
 
-## Overview
+## Übersicht
 
-Configuration files are searched in this order:
+Konfigurationsdateien werden in folgender Reihenfolge gesucht:
 
-* Working directory `(./)`
-* Home directory `($HOME)`
+* Arbeitsverzeichnis `(./)`
+* Benutzerverzeichnis `($HOME)`
 
-You can also pass the `-w` or `--dir` flag to specify a path to a configuration file.
-If `-w` is not provided, configuration files should be named `.video-manager` and follow [yaml](https://yaml.org/) syntax.
+Sie können auch das `-w` oder `--dir` Flag übergeben, um einen Pfad zu einer Konfigurationsdatei anzugeben.
+Wenn `-w` nicht bereitgestellt wird, sollten Konfigurationsdateien den Namen `.video-manager` haben und der [YAML](https://yaml.org/) Syntax folgen.
 
-## Default configuration
+## Standardkonfiguration
 
 ```yaml
-# This is where all video files will be stored
+# Hier werden alle Videodateien gespeichert
 dir: ~/.Videos
 
-# This is where download urls are cached
+# Hier werden die Download-URLs zwischengespeichert
 cache: ~/.video-manager_history
 ```
 
-## See Also
+## Siehe auch
 
-* [Commands](./commands/index.md)
+* [Befehle](./commands/index.md)
