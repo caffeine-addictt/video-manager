@@ -1,53 +1,53 @@
 <!-- markdownlint-disable MD013 -->
 
-# The list command
+# Der Befehl "list"
 
-This command lists all videos in your configured download location.
+Dieser Befehl listet alle Videos in Ihrem konfigurierten Download-Ort auf.
 
-## Table of contents
+## Inhaltsverzeichnis
 
 <!--toc:start-->
-- [Table of contents](#table-of-contents)
-- [Basic usage](#basic-usage)
-- [Options](#options)
-  - [-q, --query (defaults to "")](#q-query-defaults-to)
-  - [-n, --count [0 = unlimited]](#n-count-0-unlimited)
-  - [-a, --allow (defaults to [])](#a-allow-defaults-to)
-  - [-e, --exclude (defaults to [])](#e-exclude-defaults-to)
-  - [Inherited](#inherited)
-- [See also](#see-also)
+- [Inhaltsverzeichnis](#inhaltsverzeichnis)
+- [Grundlegende Verwendung](#grundlegende-verwendung)
+- [Optionen](#optionen)
+  - [-q, --query (Standardwert "")](#q-query-standardwert)
+  - [-n, --count [0 = unbegrenzt]](#n-count-0-unbegrenzt)
+  - [-a, --allow (Standardwert [])](#a-allow-standardwert)
+  - [-e, --exclude (Standardwert [])](#e-exclude-standardwert)
+  - [Vererbte](#vererbte)
+- [Siehe auch](#siehe-auch)
 <!--toc:end-->
 
-## Basic usage
+## Grundlegende Verwendung
 
 ```sh
 video-manager list
 ```
 
-## Options
+## Optionen
 
-### -q, --query (defaults to "")
+### -q, --query (Standardwert "")
 
-Query to search for videos.
+Abfrage zum Suchen von Videos.
 
 > [!NOTE]
-> RegExp is supported.
+> RegExp wird unterstützt.
 
 ```sh
-video-manager list -q "query" # Will check if "query" is in the filename
-video-manager list -q ".*"    # Will match every character
-video-manager list -q "*"     # Will check if "*" is in the filename
+video-manager list -q "Abfrage" # Überprüft, ob "Abfrage" im Dateinamen enthalten ist
+video-manager list -q ".*"      # Passt zu jedem Zeichen
+video-manager list -q "*"       # Überprüft, ob "*" im Dateinamen enthalten ist
 ```
 
-### -n, --count [0 = unlimited]
+### -n, --count [0 = unbegrenzt]
 
-You can specify the maximum number of videos to list. It is `00` by default, and is unlimited if set to `0`.
+Sie können die maximale Anzahl der aufzulisten Videos angeben. Standardmäßig ist es `00`, und wenn es auf `0` gesetzt ist, ist es unbegrenzt.
 
-### -a, --allow (defaults to [])
+### -a, --allow (Standardwert [])
 
-You can specify the list of allowed extensions, omitting the `.`, and is `[]` by default.
+Sie können die Liste der erlaubten Erweiterungen angeben, wobei das `.` weggelassen wird, und standardmäßig `[]` ist.
 
-The following is valid:
+Folgendes ist gültig:
 
 ```sh
 video-manager list -a mp4,mkv
@@ -55,13 +55,13 @@ video-manager list -a mp4 -a mkv
 ```
 
 > [!NOTE]
-> This cannot be used with `--exclude`.
+> Dies kann nicht mit `--exclude` verwendet werden.
 
-### -e, --exclude (defaults to [])
+### -e, --exclude (Standardwert [])
 
-You can specify the list of disallowed extensions, omitting the `.`, and is `[]` by default.
+Sie können die Liste der unerwünschten Erweiterungen angeben, wobei das `.` weggelassen wird, und standardmäßig `[]` ist.
 
-The following is valid:
+Folgendes ist gültig:
 
 ```sh
 video-manager list -e mp4,mkv
@@ -69,12 +69,12 @@ video-manager list -e mp4 -e mkv
 ```
 
 > [!NOTE]
-> This cannot be used with `--allow`.
+> Dies kann nicht mit `--allow` verwendet werden.
 
-### Inherited
+### Vererbte
 
-See [persistent options](./index.md#persistent-options) for all the supported inherited options.
+Siehe [persistente Optionen](./index.md#persistente-optionen) für alle unterstützten vererbten Optionen.
 
-## See also
+## Siehe auch
 
-Full list of [commands](./index.md).
+Vollständige Liste der [Befehle](./index.md).
