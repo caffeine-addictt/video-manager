@@ -1,39 +1,39 @@
-# The delete command
+# Команда delete
 
-This command deletes files from the configured directory.
+Видаляє вказані файли з каталогу відео.
 
-## Table of Contents
+## Зміст
 
 <!--toc:start-->
-- [The delete command](#the-delete-command)
-  - [Table of Contents](#table-of-contents)
-  - [Basic usage](#basic-usage)
-  - [Options](#options)
-    - [-y, --yes](#y-yes)
-    - [Inherited](#inherited)
-  - [See also](#see-also)
+- [Команда delete](#команда-delete)
+  - [Зміст](#зміст)
+  - [Базове використання](#базове-використання)
+  - [Опції](#опції)
+    - [-y, --yes](#-y---yes)
+    - [Успадковані](#успадковані)
+  - [Дивись також](#дивись-також)
 <!--toc:end-->
 
-## Basic usage
+## Базове використання
 
 ```sh
-# Specific file
-video-manager delete <filename>
+# Конкретний файл
+video-manager delete <ім'я-файлу>
 
-# RegExp (delete all mp4)
+# RegExp (видалити всі mp4)
 video-manager delete -r '[a-z]+\.mp4'
 ```
 
-## Options
+## Опції
 
 ### -y, --yes
 
-Skip confirmation prompt.
+Пропустити підтвердження видалення.
 
-### Inherited
+### Успадковані
 
-See [persistent options](./index.md#persistent-options) for all the supported inherited options.
+Див. [постійні опції](./index.md#постійні-опції) для всіх підтримуваних успадкованих опцій.
 
-## See also
+## Дивись також
 
 - [list](./list.md)
