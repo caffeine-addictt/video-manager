@@ -1,39 +1,39 @@
-# The delete command
+# Der Befehl "delete"
 
-This command deletes files from the configured directory.
+Dieser Befehl löscht Dateien aus dem konfigurierten Verzeichnis.
 
-## Table of Contents
+## Inhaltsverzeichnis
 
 <!--toc:start-->
-- [The delete command](#the-delete-command)
-  - [Table of Contents](#table-of-contents)
-  - [Basic usage](#basic-usage)
-  - [Options](#options)
+- [Der Befehl "delete"](#der-befehl-delete)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Grundlegende Verwendung](#grundlegende-verwendung)
+  - [Optionen](#optionen)
     - [-y, --yes](#y-yes)
-    - [Inherited](#inherited)
-  - [See also](#see-also)
+    - [Vererbt](#vererbt)
+  - [Siehe auch](#siehe-auch)
 <!--toc:end-->
 
-## Basic usage
+## Grundlegende Verwendung
 
 ```sh
-# Specific file
-video-manager delete <filename>
+# Spezifische Datei
+video-manager delete <Dateiname>
 
-# RegExp (delete all mp4)
+# RegExp (alle mp4 löschen)
 video-manager delete -r '[a-z]+\.mp4'
 ```
 
-## Options
+## Optionen
 
 ### -y, --yes
 
-Skip confirmation prompt.
+Bestätigungsaufforderung überspringen.
 
-### Inherited
+### Vererbt
 
-See [persistent options](./index.md#persistent-options) for all the supported inherited options.
+Alle unterstützten vererbten Optionen finden Sie unter [persistente Optionen](./index.md#persistente-optionen).
 
-## See also
+## Siehe auch
 
 - [list](./list.md)
