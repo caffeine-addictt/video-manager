@@ -1,56 +1,56 @@
-# The get command
+# Команда get
 
-This command downloads files from URL(s) to your configured download location.
+Ця команда дозволяє завантажувати відео з Інтернету за URL-адресою.
 
-## Table of contents
+## Зміст
 
 <!--toc:start-->
-- [Basic usage](#basic-usage)
-- [Filename](#filename)
-- [Options](#options)
-  - [-f, --file](#f-file)
-  - [-s, --strategy [synchronous|concurrent]](#s-strategy-synchronousconcurrent)
-  - [-m, --max-concurrency [0 = unlimited]](#m-max-concurrency-0-unlimited)
-  - [Inherited](#inherited)
-- [See also](#see-also)
+- [Базове використання](#базове-використання)
+- [Ім'я файлу](#імя-файлу)
+- [Опції](#опції)
+  - [-f, --file <шлях>](#f-file-шлях)
+  - [-s, --strategy [синхронний|асинхронний]](#s-strategy-синхроннийасинхронний)
+  - [-m, --max-concurrency [0 = необмежено]](#m-max-concurrency-0-необмежено)
+  - [Успадковані](#успадковані)
+- [Дивись також](#дивись-також)
 <!--toc:end-->
 
-## Basic usage
+## Базове використання
 
 ```sh
-# To download a video
+# Для завантаження відео
 video-manager get https://video-site.com/video.mp4
 
-# Or multiple videos
+# Або кілька відео
 video-manager get https://video-site.com/video.mp4 https://my.other/video.mp4
 ```
 
-## Filename
+## Ім'я файлу
 
-Filenames are generated from the last part of the URL.
+Імена файлів генеруються з останньої частини URL-адреси.
 
-For example, if the URL is `https://video-site.com/video.mp4`, the filename will be `video.mp4`.
+Наприклад, якщо URL-адреса `https://video-site.com/video.mp4`, ім'я файлу буде `video.mp4`.
 
 > [!IMPORTANT]
-> This also means that the filename will be `video` if the URL is `https://video-site.com/video`!
+> Це також означає, що ім'я файлу буде `video`, якщо URL-адреса `https://video-site.com/video`!
 
-## Options
+## Опції
 
-### -f, --file <path>
+### -f, --file <шлях>
 
-You can pass a file containing a list of URLs to download.
+Ви можете передати файл, що містить список URL-адрес для завантаження.
 
-This can be used alone or with specifying URLs from arguments, meaning the following commands are valid:
+Це можна використовувати окремо або з вказанням URL-адрес з аргументів, що означає, що наступні команди є дійсними:
 
 - `video-manager get -f urls.txt`
 - `video-manager get https://video-site.com/video.mp4 -f urls.txt`
 
-For example,
+Наприклад,
 
 ```text
 # urls.txt
-# Does not have to be a `.txt`
-# Can only have 1 URL per line
+# Не обов'язково бути `.txt`
+# Може бути лише 1 URL-адреса на рядок
 
 https://video-site.com/video.mp4
 https://my.other/video.mp4
@@ -60,32 +60,27 @@ https://my.other/video.mp4
 video-manager get -f urls.txt
 ```
 
-### -s, --strategy <synchronous|concurrent>
+### -s, --strategy [синхронний|асинхронний]
 
-You can specify the download strategy. It is `concurrent` by default.
+Ця опція дозволяє вам вибрати стратегію завантаження.
 
-- `synchronous`: Download all videos sequentially
-- `concurrent`: Download videos concurrently
+За замовчуванням вона є `асинхронною`.
 
-```sh
-video-manager get -s synchronous https://video-site.com/video.mp4 https://my.other/video.mp4
-```
-
-### -m, --max-concurrency [0 = unlimited] <integer>
-
-You can specify the maximum number of concurrent downloads. It is `10` by default, and is unlimited if set to `0`.
-
-> [!NOTE]
-> Only available when using `concurrent` strategy.
+- `синхронний`: Завантажувати всі відео послідовно
+- `асинхронний`: Завантажувати відео асинхронно / одночасно
 
 ```sh
-video-manager get -s concurrent -m 10 https://video-site.com/video.mp4 https://my.other/video.mp4
+video-manager get -s синхронний https://video-site.com/video.mp4 https://my.other/video.mp4
 ```
 
-### Inherited
+### -m, --max-concurrency [0 = необмежено]
 
-See [persistent options](./index.md#persistent-options) for all the supported inherited options.
+Ви можете вказати максимальну кількість одночасних завантажень. За замовчуванням це `0`, що означає необмежену кількість.
 
-## See also
+## Успадковані
 
-Full list of [commands](./index.md).
+- [Постійні опції](./index.md#постійні-опції)
+
+## Дивись також
+
+Повний список [команд](./index.md)
