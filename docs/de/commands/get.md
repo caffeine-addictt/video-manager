@@ -1,56 +1,56 @@
-# The get command
+# Der Befehl "get"
 
-This command downloads files from URL(s) to your configured download location.
+Dieser Befehl lädt Dateien von URL(s) in Ihren konfigurierten Download-Ort herunter.
 
-## Table of contents
+## Inhaltsverzeichnis
 
 <!--toc:start-->
-- [Basic usage](#basic-usage)
-- [Filename](#filename)
-- [Options](#options)
+- [Grundlegende Verwendung](#grundlegende-verwendung)
+- [Dateiname](#dateiname)
+- [Optionen](#optionen)
   - [-f, --file](#f-file)
   - [-s, --strategy [synchronous|concurrent]](#s-strategy-synchronousconcurrent)
-  - [-m, --max-concurrency [0 = unlimited]](#m-max-concurrency-0-unlimited)
-  - [Inherited](#inherited)
-- [See also](#see-also)
+  - [-m, --max-concurrency [0 = unbegrenzt]](#m-max-concurrency-0-unbegrenzt)
+  - [Vererbt](#vererbt)
+- [Siehe auch](#siehe-auch)
 <!--toc:end-->
 
-## Basic usage
+## Grundlegende Verwendung
 
 ```sh
-# To download a video
+# Um ein Video herunterzuladen
 video-manager get https://video-site.com/video.mp4
 
-# Or multiple videos
+# Oder mehrere Videos
 video-manager get https://video-site.com/video.mp4 https://my.other/video.mp4
 ```
 
-## Filename
+## Dateiname
 
-Filenames are generated from the last part of the URL.
+Dateinamen werden aus dem letzten Teil der URL generiert.
 
-For example, if the URL is `https://video-site.com/video.mp4`, the filename will be `video.mp4`.
+Beispielweise wird bei der URL `https://video-site.com/video.mp4` der Dateiname `video.mp4` sein.
 
 > [!IMPORTANT]
-> This also means that the filename will be `video` if the URL is `https://video-site.com/video`!
+> Das bedeutet auch, dass der Dateiname `video` ist, wenn die URL `https://video-site.com/video` lautet!
 
-## Options
+## Optionen
 
-### -f, --file <path>
+### -f, --file <Pfad>
 
-You can pass a file containing a list of URLs to download.
+Sie können eine Datei mit einer Liste von URLs zum Herunterladen übergeben.
 
-This can be used alone or with specifying URLs from arguments, meaning the following commands are valid:
+Dies kann allein oder mit dem Angeben von URLs aus Argumenten verwendet werden, was bedeutet, dass die folgenden Befehle gültig sind:
 
 - `video-manager get -f urls.txt`
 - `video-manager get https://video-site.com/video.mp4 -f urls.txt`
 
-For example,
+Zum Beispiel,
 
 ```text
 # urls.txt
-# Does not have to be a `.txt`
-# Can only have 1 URL per line
+# Muss nicht eine `.txt` sein
+# Kann nur 1 URL pro Zeile haben
 
 https://video-site.com/video.mp4
 https://my.other/video.mp4
@@ -62,30 +62,30 @@ video-manager get -f urls.txt
 
 ### -s, --strategy <synchronous|concurrent>
 
-You can specify the download strategy. It is `concurrent` by default.
+Sie können die Download-Strategie angeben. Standardmäßig ist sie `concurrent`.
 
-- `synchronous`: Download all videos sequentially
-- `concurrent`: Download videos concurrently
+- `synchronous`: Lädt alle Videos sequenziell herunter
+- `concurrent`: Lädt Videos gleichzeitig herunter
 
 ```sh
 video-manager get -s synchronous https://video-site.com/video.mp4 https://my.other/video.mp4
 ```
 
-### -m, --max-concurrency [0 = unlimited] <integer>
+### -m, --max-concurrency [0 = unbegrenzt] <Ganzzahl>
 
-You can specify the maximum number of concurrent downloads. It is `10` by default, and is unlimited if set to `0`.
+Sie können die maximale Anzahl gleichzeitiger Downloads angeben. Standardmäßig ist es `10`, und bei `0` ist es unbegrenzt.
 
 > [!NOTE]
-> Only available when using `concurrent` strategy.
+> Nur verfügbar, wenn die `concurrent`-Strategie verwendet wird.
 
 ```sh
 video-manager get -s concurrent -m 10 https://video-site.com/video.mp4 https://my.other/video.mp4
 ```
 
-### Inherited
+### Vererbt
 
-See [persistent options](./index.md#persistent-options) for all the supported inherited options.
+Alle unterstützten vererbten Optionen finden Sie unter [persistente Optionen](./index.md#persistente-optionen).
 
-## See also
+## Siehe auch
 
-Full list of [commands](./index.md).
+Vollständige Liste der [Befehle](./index.md).
