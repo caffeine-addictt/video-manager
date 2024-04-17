@@ -1,22 +1,22 @@
-# The version command
+# Команда Версії
 
-This command prints the current version of video-manager.
+Ця команда виводить версію video-manager.
 
-## Table of contents
+## Зміст
 
 <!--toc:start-->
-- [Basic usage](#basic-usage)
-- [See also](#see-also)
+- [Базове використання](#базове-використання)
+- [Дивись також](#дивись-також)
 <!--toc:end-->
 
-## Basic usage
+## Базове використання
 
-This command does not take any arguments and only supports [persistent options](./index.md#persistent-options).
+Ця команда не приймає жодних аргументів та підтримує лише [постійні опції](./index.md#постійні-опції).
 
 ```sh
 video-manager version
 ```
 
-### See also
+### Дивись також
 
-The full list of [commands](./index.md)
+Повний список [команд](./index.md)
