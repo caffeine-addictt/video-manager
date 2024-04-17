@@ -1,36 +1,36 @@
 <!-- markdownlint-disable MD033 MD013 -->
 
-# Configuration
+# Конфігурація
 
-## Table of Contents
+## Зміст
 
 <!--toc:start-->
-* [Table of Contents](#table-of-contents)
-* [Overview](#overview)
-* [Default configuration](#default-configuration)
-* [See Also](#see-also)
+* [Зміст](#зміст)
+* [Огляд](#огляд)
+* [Стандартна конфігурація](#стандартна-конфігурація)
+* [Дивись також](#дивись-також)
 <!--toc:end-->
 
-## Overview
+## Огляд
 
-Configuration files are searched in this order:
+Файли конфігурації шукаються в такому порядку:
 
-* Working directory `(./)`
-* Home directory `($HOME)`
+* Робочий каталог `(./)`
+* Домашній каталог `($HOME)`
 
-You can also pass the `-w` or `--dir` flag to specify a path to a configuration file.
-If `-w` is not provided, configuration files should be named `.video-manager` and follow [yaml](https://yaml.org/) syntax.
+Ви також можете передати прапорець `-w` або `--dir`, щоб вказати шлях до файлу конфігурації.
+Якщо `-w` не надається, файли конфігурації повинні мати назву `.video-manager` та відповідати синтаксису [yaml](https://yaml.org/).
 
-## Default configuration
+## Стандартна конфігурація
 
 ```yaml
-# This is where all video files will be stored
+# Це місце, де зберігаються всі відеофайли
 dir: ~/.Videos
 
-# This is where download urls are cached
+# Це місце, де кешуються URL-адреси завантаження
 cache: ~/.video-manager_history
 ```
 
-## See Also
+## Дивись також
 
-* [Commands](./commands/index.md)
+* [Команди](./commands/index.md)
