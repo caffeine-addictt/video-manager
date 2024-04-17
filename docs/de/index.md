@@ -1,6 +1,6 @@
-# Documentation for Video Manager
+# Dokumentation für den Video-Manager
 
-1. [Installing](./installing.md)
-2. [Getting Started](./getting-started.md)
-3. [Commands](./commands/index.md)
-4. [Configuration](./configuration.md)
+1. [Installieren](./installing.md)
+2. [Erste Schritte](./getting-started.md)
+3. [Befehle](./commands/index.md)
+4. [Konfiguration](./configuration.md)
