@@ -1,43 +1,43 @@
 <!-- markdownlint-disable MD033 -->
 
-# Command Documentation
+# Befehlsdokumentation
 
-Here is the full list of commands and persistent options that Video Manager supports.
+Hier ist die vollständige Liste der Befehle und persistenter Optionen, die von Video Manager unterstützt werden.
 
-## Persistent options
+## Persistente Optionen
 
-### -w, --dir <path>
+### -w, --dir <Pfad>
 
-Uses the specified working directory. By default, it is `~/Videos`.
+Verwendet das angegebene Arbeitsverzeichnis. Standardmäßig ist es `~/Videos`.
 
 ### -h, --help
 
-Prints the help message
+Gibt die Hilfemeldung aus
 
 ### -v, --verbose
 
-Prints verbose output
+Gibt ausführliche Ausgaben aus
 
 ### -d, --debug
 
-Prints debug output
+Gibt Debug-Ausgaben aus
 
-### -c, --config <path>
+### -c, --config <Pfad>
 
-Uses the specified config file.
+Verwendet die angegebene Konfigurationsdatei.
 
-If not specified, the `.video-manager` file is looked for in this order:
+Wenn nicht angegeben, wird die `.video-manager`-Datei in folgender Reihenfolge gesucht:
 
-- The current working directory (`./.video-manager`)
-- The user's home directory (`~/.video-manager`)
+- Das aktuelle Arbeitsverzeichnis (`./.video-manager`)
+- Das Benutzerverzeichnis (`~/.video-manager`)
 
-### -C, --cache <path>
+### -C, --cache <Pfad>
 
-Uses the specified cache file.
+Verwendet die angegebene Cache-Datei.
 
-If not specified, the `~/.video-manager_history` file is used, or otherwise defined in the [configuration file](../configuration.md).
+Wenn nicht angegeben, wird die `~/.video-manager_history`-Datei verwendet oder anderweitig in der [Konfigurationsdatei](../configuration.md) definiert.
 
-## Commands
+## Befehle
 
 - [cache clear|list|remove](./cache.md)
 - [delete](./delete.md)
