@@ -1,49 +1,49 @@
 <!-- markdownlint-disable MD033 -->
 
-# Getting started
+# Erste Schritte
 
-This guide provides an overview of the various features and options available.
+Diese Anleitung bietet einen Überblick über die verschiedenen Funktionen und Optionen.
 
-## Table of Contents
+## Inhaltsverzeichnis
 
 <!--toc:start-->
-- [Getting started](#getting-started)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Example usage](#example-usage)
-  - [See also](#see-also)
+- [Erste Schritte](#erste-schritte)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Übersicht](#übersicht)
+  - [Beispielverwendung](#beispielverwendung)
+  - [Siehe auch](#siehe-auch)
 <!--toc:end-->
 
-## Overview
+## Übersicht
 
-This tool is made to help you download and manage videos efficiently.
+Dieses Tool wurde entwickelt, um Ihnen beim effizienten Herunterladen und Verwalten von Videos zu helfen.
 
-* We currently has _3_ commands available. See the full list [here](./commands/index.md).
-* This tool is highly configurable with configuration files. See [here](./configuration.md) for more info.
+* Derzeit stehen _3_ Befehle zur Verfügung. Siehe die vollständige Liste [hier](./commands/index.md).
+* Dieses Tool ist hoch konfigurierbar mit Konfigurationsdateien. Weitere Informationen finden Sie [hier](./configuration.md).
 
-## Example usage
+## Beispielverwendung
 
-Here are some example usage
+Hier sind einige Beispiele zur Verwendung
 
 ```sh
-#### Downloading a video ####
+#### Herunterladen eines Videos ####
 video-manager get https://video-site.com/video.mp4
 
-# Or multiple videos concurrently
+# Oder mehrere Videos gleichzeitig
 video-manager get -s concurrent https://video-site.com/video1.mp4 https://video-site.com/video2.mp4
 
-# Or multiple videos from a file
+# Oder mehrere Videos aus einer Datei
 video-manager get -f videos.txt
 
 
-#### List downloaded videos ####
+#### Liste heruntergeladener Videos ####
 video-manager list
 
-# Not feeling mp4's lately? Exclude them!
+# Lust nicht auf mp4's? Schließen Sie sie aus!
 video-manager list -e mp4
 ```
 
-## See also
+## Siehe auch
 
-* [Commands](./commands/index.md)
-* [Configuration](./configuration.md)
+* [Befehle](./commands/index.md)
+* [Konfiguration](./configuration.md)
