@@ -1,22 +1,22 @@
-# The version command
+# Der Befehl "version"
 
-This command prints the current version of video-manager.
+Dieser Befehl gibt die aktuelle Version von video-manager aus.
 
-## Table of contents
+## Inhaltsverzeichnis
 
 <!--toc:start-->
-- [Basic usage](#basic-usage)
-- [See also](#see-also)
+- [Grundlegende Verwendung](#grundlegende-verwendung)
+- [Siehe auch](#siehe-auch)
 <!--toc:end-->
 
-## Basic usage
+## Grundlegende Verwendung
 
-This command does not take any arguments and only supports [persistent options](./index.md#persistent-options).
+Dieser Befehl erwartet keine Argumente und unterstützt nur [persistente Optionen](./index.md#persistente-optionen).
 
 ```sh
 video-manager version
 ```
 
-### See also
+### Siehe auch
 
-The full list of [commands](./index.md)
+Die vollständige Liste der [Befehle](./index.md)
