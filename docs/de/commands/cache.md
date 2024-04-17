@@ -1,52 +1,52 @@
 <!-- markdownlint-disable MD013 -->
 
-# Cache commands
+# Cache-Befehle
 
-The following commands are used to manage caches.
+Die folgenden Befehle werden verwendet, um Caches zu verwalten.
 
-## Table of Contents
+## Inhaltsverzeichnis
 
 <!--toc:start-->
-- [Cache commands](#cache-commands)
-  - [Table of Contents](#table-of-contents)
-  - [Commands](#commands)
-    - [list|ls <pattern?>](#listls-pattern)
-    - [remove|rm <pattern>](#removerm-pattern)
+- [Cache-Befehle](#cache-befehle)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Befehle](#befehle)
+    - [list|ls <Muster?>](#listls-muster)
+    - [remove|rm <Muster>](#removerm-muster)
     - [clear|clr|wipe](#clearclrwipe)
-  - [Options](#options)
-  - [See also](#see-also)
+  - [Optionen](#optionen)
+  - [Siehe auch](#siehe-auch)
 <!--toc:end-->
 
-## Commands
+## Befehle
 
-### list|ls <pattern?>
+### list|ls <Muster?>
 
-List all cache entries or those matching the given pattern.
+Listet alle Cache-Einträge oder solche, die mit dem angegebenen Muster übereinstimmen.
 
-Each cache entry is stripped of its protocol (`https://`, `http://`, `www.`) before matching.
-For example, `https://video-site.com` will be stripped to `video-site.com` and `http://www.other-site.com` will be stripped to `other-site.com`.
+Jeder Cache-Eintrag wird von seinem Protokoll (`https://`, `http://`, `www.`) befreit, bevor er abgeglichen wird.
+Beispielsweise wird `https://video-site.com` auf `video-site.com` gekürzt und `http://www.other-site.com` auf `other-site.com`.
 
-Patterns are matched in this order:
+Muster werden in dieser Reihenfolge abgeglichen:
 
-- Check if line starts with the pattern
-- RegExp match against the line
+- Überprüfen, ob die Zeile mit dem Muster beginnt
+- RegExp-Abgleich gegen die Zeile
 
 ```sh
 video-manager cache list
 video-manager cache ls myVideoTitle
 ```
 
-### remove|rm <pattern>
+### remove|rm <Muster>
 
-Remove all cache entries matching the given pattern.
+Entfernt alle Cache-Einträge, die mit dem angegebenen Muster übereinstimmen.
 
-> [!NOTE]
-> The protocol (`https://`, `http://`, `www.`) is not removed before matching.
+> [!HINWEIS]
+> Das Protokoll (`https://`, `http://`, `www.`) wird vor dem Abgleichen nicht entfernt.
 
-Patterns are matched in this order:
+Muster werden in dieser Reihenfolge abgeglichen:
 
-- Check if line starts with the pattern
-- RegExp match against the line
+- Überprüfen, ob die Zeile mit dem Muster beginnt
+- RegExp-Abgleich gegen die Zeile
 
 ```sh
 video-manager cache remove https
@@ -54,16 +54,16 @@ video-manager cache remove https
 
 ### clear|clr|wipe
 
-Clear the entire cache.
+Löscht den gesamten Cache.
 
 ```sh
 video-manager cache clear
 ```
 
-## Options
+## Optionen
 
-Only [persistent options](./index,md/persistent-options) are supported.
+Es werden nur [persistente Optionen](./index,md/persistent-options) unterstützt.
 
-## See also
+## Siehe auch
 
-- [get command](./get.md)
+- [Befehl "get"](./get.md)
