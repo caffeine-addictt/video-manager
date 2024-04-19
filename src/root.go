@@ -91,7 +91,7 @@ func init() {
 	}
 
 	// Initialize subcommands
-	initCache()
+	initCacheCmd()
 }
 
 func initConfig() {
