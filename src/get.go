@@ -10,12 +10,14 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"sync"
 
 	"github.com/caffeine-addictt/video-manager/src/utils"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // Non URL similarity
@@ -262,7 +264,18 @@ var getCommand = &cobra.Command{
 					return
 				}
 
-				fileName += extensions[0]
+				resolved := false
+				for _, ext := range viper.GetStringSlice("preferred_extensions") {
+					if slices.Contains(extensions, ext) {
+						fileName += ext
+						resolved = true
+						break
+					}
+				}
+
+				if !resolved {
+					fileName += extensions[0]
+				}
 			}
 			downloadLocation := filepath.Clean(filepath.Join(dirPath, fileName))
 
