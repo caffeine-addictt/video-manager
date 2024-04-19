@@ -184,7 +184,7 @@ var cacheClearCommand = &cobra.Command{
 	},
 }
 
-func initCache() {
+func initCacheCmd() {
 	rootCommand.AddCommand(cacheCommand)
 	cacheCommand.AddCommand(
 		cacheListCommand,
