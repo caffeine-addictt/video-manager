@@ -29,6 +29,12 @@ dir: ~/.Videos
 
 # Це місце, де кешуються URL-адреси завантаження
 cache: ~/.video-manager_history
+
+#
+preferred_extensions:
+  - .mp4
+  - .avi
+  - .webm
 ```
 
 ## Дивись також

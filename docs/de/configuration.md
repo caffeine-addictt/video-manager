@@ -29,6 +29,12 @@ dir: ~/.Videos
 
 # Hier werden die Download-URLs zwischengespeichert
 cache: ~/.video-manager_history
+
+#
+preferred_extensions:
+  - .mp4
+  - .avi
+  - .webm
 ```
 
 ## Siehe auch

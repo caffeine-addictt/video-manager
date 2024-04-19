@@ -29,6 +29,13 @@ dir: ~/.Videos
 
 # This is where download urls are cached
 cache: ~/.video-manager_history
+
+# The preferred extensions for files
+# The first one that matches is used
+preferred_extensions:
+  - .mp4
+  - .avi
+  - .webm
 ```
 
 ## See Also
