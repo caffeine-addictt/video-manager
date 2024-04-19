@@ -90,6 +90,13 @@ func init() {
 		os.Exit(1)
 	}
 
+	// Preferred extensions
+	viper.SetDefault("preferred_extensions", []string{
+		".mp4",
+		".avi",
+		".webm",
+	})
+
 	// Initialize subcommands
 	initCache()
 }
