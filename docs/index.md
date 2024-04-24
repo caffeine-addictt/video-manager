@@ -7,3 +7,4 @@ Download, manage and view videos.
 - [English](./en/index.md)
 - [Українська](./uk/index.md)
 - [Deutsch](./de/index.md)
+- [Spanish](./es/index.md)
