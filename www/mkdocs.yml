@@ -1,0 +1,117 @@
+site_name: Video Manager Docs
+# site_url: 
+site_description: >-
+  Documentation for Video Manager.
+repo_url: https://github.com/caffeine-addictt/video-manager
+repo_name: caffeine-addictt/video-manager
+copyright: Copyright &copy; <a href="https://github.com/caffeine-addictt" target="_blank" rel="noopener noreferrer">caffeine-addictt</a> 2025
+
+plugins:
+  - search:
+      lang:
+        - en
+        - es
+        - uk
+        - de
+  - tags
+  - meta
+  - i18n:
+      reconfigure_material: true
+      docs_structure: folder
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+
+        - locale: es
+          default: true
+          name: Spanish
+          build: true
+          # site_name: 
+          # nav_translations:
+
+        - locale: uk
+          default: true
+          name: Ukrainian
+          build: true
+          # site_name: 
+          # nav_translations:
+          
+        - locale: de
+          default: true
+          name: German
+          build: true
+          # site_name: 
+          # nav_translations:
+
+  - git-revision-date-localized:
+      enable_creation_date: true
+
+# extra_css:
+#   - ./stylesheets/styles.css
+
+theme:
+  name: material
+  language: en
+  # custom_dir: docs/overrides
+  include_search_page: false
+  search_index_only: true
+  icon:
+    repo: material/github
+    logo: material/file-document
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: slate
+      primary: indigo
+      accent: deep-purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: indigo
+      accent: deep-purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+  font:
+    text: Roboto Slab
+    code: Roboto Mono
+
+  features:
+    - header.autohide
+    - navigation.tracking
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.annotate
+
+  markdown_extensions:
+    - admonition
+    - pymdownx.details
+    - pymdownx.superfences
+    - attr_list
+    - toc:
+        permalink: true
+    - footnotes
+  # extra:
+  #   tags:
+  #     Placeholder: placeholder
+  #     README: readme
+  #     Logs: logs
+
+nav:
+  - Index: "index.md"
+  - Installation: "installing.md"
+  - Getting Started: "getting-started.md"
+  - Configuration: "configuration.md"
+  - Commands:
+    - Command Index: "commands/index.md"
+    - Cache Commands: "commands/cache.md"
+    - Config Commands: "commands/config.md"
+    - Delete Command: "commands/delete.md"
+    - Get Command: "commands/get.md"
+    - List Command: "commands/list.md"
+    - Version Command: "commands/version.md"
